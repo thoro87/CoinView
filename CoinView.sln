@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoinView", "CoinView\CoinView.csproj", "{ACE541F9-09C8-450C-BB09-C846100CA18A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ACE541F9-09C8-450C-BB09-C846100CA18A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACE541F9-09C8-450C-BB09-C846100CA18A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACE541F9-09C8-450C-BB09-C846100CA18A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACE541F9-09C8-450C-BB09-C846100CA18A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {019C981D-B3A7-4826-A3FE-AF3601EF816F}
+	EndGlobalSection
+EndGlobal

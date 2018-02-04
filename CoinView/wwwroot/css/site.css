@@ -1,0 +1,141 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    color: white;
+    background: #1e2b34;
+    font-family: 'Century Gothic';
+    overflow-y: scroll;
+    font-weight: bold;
+}
+
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+#userSelect {
+    background: #131e25;
+    outline: none;
+}
+
+h4 {
+    font-size: 20px;
+}
+
+.SummaryTable {
+    background: #1e2b34;
+    border-radius: 7px;
+}
+
+table th {
+    padding-right: 10px;
+    padding-left: 6px;
+}
+
+table td {
+    padding-right: 15px;
+}
+
+table .Number {
+    text-align: right;
+}
+
+.TextGreen {
+    color: #21de52;
+}
+
+.TextRed {
+    color: #ff4a4a;
+}
+
+.SummaryTable {
+    display: inline-block;
+    background: #131e25;
+    border-radius: 7px;
+    padding: 5px 10px 5px 10px;
+}
+
+.Column {
+    display: inline-block;
+    vertical-align: top;
+    padding-right: 20px;
+}
+
+.Item:hover {
+    cursor: pointer;
+    background: #0c1419;
+}
+
+.Item {
+    position: relative;
+    margin: 2px;
+    background: #131e25;
+    border-radius: 7px;
+    padding: 5px 10px 5px 10px;
+}
+
+.TopContainer {
+    position: relative;
+    height: 50px;
+    width: 280px;
+}
+
+.TopLeft {
+    position: absolute;
+    font-size: 20px;
+}
+
+.BottomLeft {
+    position: absolute;
+    top: 32px;
+    font-size: 10px;
+}
+
+.TopRight {
+    position: absolute;
+    right: 3px;
+    font-size: 14px;
+}
+
+.BottomRight {
+    position: absolute;
+    right: 5px;
+    top: 25px;
+    font-size: 16px;
+}
+
+.Details {
+    position: relative;
+    color: #b9b9b9;
+}
+
+.Details table {
+    width: 100%;
+}
+
+.Details table th {
+    font-weight: normal;
+}
+
+.Details td {
+    text-align: right;
+    padding-right: 5px;
+}
+
+.Price {
+    vertical-align: top;
+    position: relative;
+    left: 30px;
+}
+
+.Throbber {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+}
