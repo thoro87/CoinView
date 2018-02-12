@@ -61,12 +61,12 @@ namespace CoinView.Controllers {
         //    }
         //}
 
-        public IActionResult Index() {
+        public IActionResult Summary() {
             return View();
         }
 
-        public IActionResult Test() {
-            return View();
+        public IActionResult UserDetail(string id) {
+            return View("UserDetail", db.Users.Single(u => u.UserId == Int32.Parse(id)));
         }
 
         public IActionResult Error() {

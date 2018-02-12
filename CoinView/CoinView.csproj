@@ -11,6 +11,9 @@
     <Compile Remove="Models\User.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Remove="Views\Home\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Properties\PublishProfiles\CustomProfile.pubxml" />
   </ItemGroup>
   <ItemGroup>

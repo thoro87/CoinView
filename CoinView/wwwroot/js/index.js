@@ -1,15 +1,12 @@
-﻿$(document).ready(init);
+﻿//$(document).ready(init);
 
 var mainModel;
 
-function init() {
+function init(userID) {
+
     mainModel = {};
     mainModel.isInitialized = ko.observable(false);
-    mainModel.users = ko.observable([]);
-    mainModel.userID = ko.observable(null);
-    mainModel.user = ko.pureComputed(function () {
-        return Enumerable.From(mainModel.users()).Where(function (u) { return u.UserId === mainModel.userID(); }).SingleOrDefault();
-    });
+    mainModel.userID = ko.observable(userID);
 
     mainModel.wallets = ko.observable({});
     mainModel.coins = ko.observable({});
@@ -91,22 +88,15 @@ function init() {
 
     ko.applyBindings(mainModel);
 
-    mainModel.userID.subscribe(function (newValue) {
-        if (mainModel.isInitialized()) {
-            beginGetData();
-        }
-    });
-
     beginGetData();
     //beginGetCoinValues();
 }
 
 function beginGetData() {
-   xhr.callService(endGetData, "Home", "GetData", { userID: mainModel.userID() != null ? mainModel.userID() : 1 });
+   xhr.callService(endGetData, "Home", "GetData", { userID: mainModel.userID() });
 }
 
 function endGetData(result) {
-    mainModel.users(result.Users);
     mainModel.coins(result.Coins);
     mainModel.wallets(result.Wallets);
     mainModel.buysForTrades(Enumerable.From(result.Buys).Where(function (b) { return b.Purpose === 'Trade'; }).ToArray());
