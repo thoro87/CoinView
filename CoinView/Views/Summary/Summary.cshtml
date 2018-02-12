@@ -1,0 +1,33 @@
+﻿<script type="text/javascript" src="~/js/summary.js"></script>
+
+<img id="Throbber" src="~/images/throbber.gif" class="Throbber" />
+
+<div id="Content">
+    <h4>.Summary</h4>
+
+    <div class="SummaryTable">
+        <table>
+            <tr>
+                <th>Invests</th>
+                <td class="Number" data-bind="text: investsSellValueEur().formatMoney()"></td>
+                <th class="Number" data-bind="text: investsBuyValueEur().formatMoney()"></th>
+                <td class="Number" data-bind="text: investsResultValueEur().formatMoney(), css: investsResultValueEur() > 0 ? 'TextGreen' : 'TextRed'"></td>
+            </tr>
+            <tr>
+                <th>Trades</th>
+                <td class="Number" data-bind="text: tradesSellValueEur().formatMoney()"></td>
+                <th class="Number" data-bind="text: tradesBuyValueEur().formatMoney()"></th>
+                <td class="Number" data-bind="text: tradesResultValueEur().formatMoney(), css: tradesResultValueEur() > 0 ? 'TextGreen' : 'TextRed'"></td>
+            </tr>
+            <tr>
+                <th>Creations</th>
+                <td class="Number" data-bind="text: creationsSellValueEur().formatMoney()"></td>
+                <th class="Number" data-bind="text: creationsBuyValueEur().formatMoney()"></th>
+                <td class="Number" data-bind="text: creationsResultValueEur().formatMoney(), css: creationsResultValueEur() > 0 ? 'TextGreen' : 'TextRed'"></td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+<script>init();</script>

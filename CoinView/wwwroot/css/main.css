@@ -1,0 +1,66 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    color: white;
+    background: #1e2b34;
+    font-family: 'Century Gothic';
+    overflow-y: scroll;
+    font-weight: bold;
+}
+
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+h4 {
+    font-size: 20px;
+}
+
+.SummaryTable {
+    background: #1e2b34;
+    border-radius: 7px;
+    display: inline-block;
+    background: #131e25;
+    border-radius: 7px;
+    padding: 5px 10px 5px 10px;
+}
+
+.SummaryTable th {
+    border-right: 1px solid;
+}
+
+.SummaryTable td {
+    padding-left: 10px;
+}
+
+table th {
+    padding-right: 10px;
+    padding-left: 6px;
+}
+
+table td {
+    padding-right: 15px;
+}
+
+table .Number {
+    text-align: right;
+}
+
+.TextGreen {
+    color: #21de52;
+}
+
+.TextRed {
+    color: #ff4a4a;
+}
+
+#Content {
+    visibility: hidden;
+}
+
+.Throbber {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+}
