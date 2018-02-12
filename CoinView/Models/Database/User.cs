@@ -14,7 +14,6 @@ namespace CoinView.Models.Database
 
         public int UserId { get; set; }
         public string Name { get; set; }
-        public int AccountType { get; set; }
 
         public ICollection<Buy> Buys { get; set; }
         public ICollection<Creation> Creations { get; set; }

@@ -20,8 +20,8 @@ namespace CoinView.Controllers {
 
         public JsonResult GetData(int userID) {
             Dictionary<string, object> data = new Dictionary<string, object>();
-            data["Users"] = db.Users.Select(u => new { u.UserId, u.Name, u.AccountType }).ToList();
-            data["Buys"] = db.Buys.Where(b => b.UserId == userID).Select(b => new { b.BuyId, b.UserId, b.Date, b.ExchangeWalletId, b.WalletId, b.CoinId, b.PriceEur, b.AmountBought, b.AmountInWallet }).ToList();
+            data["Users"] = db.Users.Select(u => new { u.UserId, u.Name }).ToList();
+            data["Buys"] = db.Buys.Where(b => b.UserId == userID).Select(b => new { b.BuyId, b.UserId, b.Date, b.Purpose, b.ExchangeWalletId, b.WalletId, b.CoinId, b.PriceEur, b.AmountBought, b.AmountInWallet }).ToList();
             data["Creations"] = db.Creations.Where(c => c.UserId == userID).Select(c => new { c.CreationId, c.UserId, c.WalletId, c.CoinId, c.Amount, c.SellWalletId, c.SellDate, c.SellPricePerShare, c.SellPriceBtc }).ToList();
             data["Trades"] = db.Trades.Where(t => t.UserId == userID).Select(t => new { t.TradeId, t.UserId, t.StoreWalletId, t.CoinId, t.Amount, t.BuyWalletId, t.BuyPricePerShare, t.BuyPriceBtc, t.BuyDate, t.SellWalletId, t.SellPricePerShare, t.SellPriceBtc, t.SellDate }).ToList();
             data["Coins"] = db.Coins.Select(c => new { c.CoinId, c.CoinMarketCapId, c.Name, c.Symbol }).ToDictionary(c => c.CoinId);

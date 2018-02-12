@@ -5,7 +5,6 @@
 <div data-bind="visible: hasValues()">
     <select id="userSelect" data-bind="value: userID, options: users, optionsValue: 'UserId', optionsText: 'Name'"></select>
 
-    <!-- ko if: isTradingAccount() -->
     <h4>.Summary</h4>
     <div class="SummaryTable">
         <table>
@@ -133,7 +132,7 @@
 
     <div class="Column">
         <h4>.Buys</h4>
-        <!-- ko foreach: buys -->
+        <!-- ko foreach: buysForTrades -->
         <div class="Item">
             <div class="TopContainer">
                 <div class="TopLeft"><span data-bind="text: $root.wallets()[ExchangeWalletId].Name"></span></div>
@@ -144,9 +143,7 @@
         </div>
         <!-- /ko -->
     </div>
-    <!-- /ko -->
 
-    <!-- ko if: isInvestmentAccount() -->
     <br />
     <div class="Column">
         <h4>.Investments</h4>
@@ -165,7 +162,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- ko foreach: investments-->
+                    <!-- ko foreach: buysForInvests -->
                     <tr>
                         <td data-bind="text: date().substring(0,10)"></td>
                         <td data-bind="text: exchange().Name"></td>
@@ -196,7 +193,5 @@
         <h4>.Current Price</h4>
         <h3 data-bind="text: hasValues() ? coinValues()[1].PriceEur.formatMoney() : ''"></h3>
     </div>
-
-    <!-- /ko -->
 
 </div>

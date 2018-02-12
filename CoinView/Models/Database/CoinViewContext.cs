@@ -34,6 +34,10 @@ namespace CoinView.Models.Database
                     .HasColumnName("PriceEUR")
                     .HasColumnType("decimal(16, 8)");
 
+                entity.Property(e => e.Purpose)
+                    .IsRequired()
+                    .HasMaxLength(63);
+
                 entity.Property(e => e.UserId).HasColumnName("UserID");
 
                 entity.Property(e => e.WalletId).HasColumnName("WalletID");

@@ -10,14 +10,12 @@ function init() {
     mainModel.user = ko.pureComputed(function () {
         return Enumerable.From(mainModel.users()).Where(function (u) { return u.UserId === mainModel.userID(); }).SingleOrDefault();
     });
-    mainModel.isInvestmentAccount = ko.observable(false);
-    mainModel.isTradingAccount = ko.observable(false);
 
     mainModel.wallets = ko.observable({});
     mainModel.coins = ko.observable({});
 
-    mainModel.buys = ko.observableArray([]);
-    mainModel.investments = ko.observableArray([]);
+    mainModel.buysForTrades = ko.observableArray([]);
+    mainModel.buysForInvests = ko.observableArray([]);
     mainModel.trades = ko.observable([]);
     mainModel.openTrades = ko.pureComputed(function () {
         return Enumerable.From(mainModel.trades()).Where(function (t) { return !t.isSold(); }).OrderByDescending(function (t) { return t.changeEUR(); }).ToArray();
@@ -37,10 +35,10 @@ function init() {
 
     // summary trading
     mainModel.tradingBuyBTCSum = ko.pureComputed(function () {
-        return Enumerable.From(mainModel.buys()).Select(function (b) { return b.AmountInWallet; }).Sum();
+        return Enumerable.From(mainModel.buysForTrades()).Select(function (b) { return b.AmountInWallet; }).Sum();
     });
     mainModel.tradingBuyEURSum = ko.pureComputed(function () {
-        return Enumerable.From(mainModel.buys()).Select(function (b) { return b.AmountBought * b.PriceEur; }).Sum();
+        return Enumerable.From(mainModel.buysForTrades()).Select(function (b) { return b.AmountBought * b.PriceEur; }).Sum();
     });
     mainModel.tradingOpenTradeCompareValueBTCSum = ko.pureComputed(function () {
         return Enumerable.From(mainModel.openTrades()).Select(function (t) { return t.compareValueBTC(); }).Sum();
@@ -76,13 +74,13 @@ function init() {
 
     // summary investment
     mainModel.investmentAmountInWalletSum = ko.pureComputed(function () {
-        return Enumerable.From(mainModel.investments()).Select(function (i) { return i.amountInWallet(); }).Sum();
+        return Enumerable.From(mainModel.buysForInvests()).Select(function (i) { return i.amountInWallet(); }).Sum();
     });
     mainModel.investmentBuyValueEURSum = ko.pureComputed(function () {
-        return Enumerable.From(mainModel.investments()).Select(function (i) { return i.buyValueEUR() }).Sum();
+        return Enumerable.From(mainModel.buysForInvests()).Select(function (i) { return i.buyValueEUR() }).Sum();
     });
     mainModel.investmentSellValueEURSum = ko.pureComputed(function () {
-        return Enumerable.From(mainModel.investments()).Select(function (i) { return i.sellValueEUR() }).Sum();
+        return Enumerable.From(mainModel.buysForInvests()).Select(function (i) { return i.sellValueEUR() }).Sum();
     });
     mainModel.investmentChangeEURSum = ko.pureComputed(function () {
         return mainModel.investmentSellValueEURSum() - mainModel.investmentBuyValueEURSum();
@@ -111,12 +109,10 @@ function endGetData(result) {
     mainModel.users(result.Users);
     mainModel.coins(result.Coins);
     mainModel.wallets(result.Wallets);
-    mainModel.buys(result.Buys);
+    mainModel.buysForTrades(Enumerable.From(result.Buys).Where(function (b) { return b.Purpose === 'Trade'; }).ToArray());
+    mainModel.buysForInvests(Enumerable.From(result.Buys).Where(function (b) { return b.Purpose === 'Invest'; }).Select(function (b) { return createInvestment(b); }).ToArray());
     mainModel.creations(Enumerable.From(result.Creations).Select(function (c) { return createCreation(c); }).ToArray());
-    mainModel.investments(Enumerable.From(result.Buys).Select(function (b) { return createInvestment(b); }).ToArray()); // TODO
     mainModel.trades(Enumerable.From(result.Trades).Select(function (t) { return createTrade(t); }).ToArray());
-    mainModel.isTradingAccount(mainModel.user().AccountType === 0);
-    mainModel.isInvestmentAccount(mainModel.user().AccountType === 1);
     mainModel.coinValues(result.CoinValues);
     mainModel.isInitialized(true);
     mainModel.hasValues(true);
@@ -139,7 +135,7 @@ function createInvestment(investment) {
         if (mainModel.hasValues()) {
             return that.amountInWallet() * mainModel.coinValues()[1].PriceEur;
         } else {
-            return null;
+            return 0;
         }
     });
     that.changeEUR = ko.pureComputed(function () {

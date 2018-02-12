@@ -8,6 +8,7 @@ namespace CoinView.Models.Database
         public int BuyId { get; set; }
         public int UserId { get; set; }
         public DateTime Date { get; set; }
+        public string Purpose { get; set; }
         public int ExchangeWalletId { get; set; }
         public int WalletId { get; set; }
         public int CoinId { get; set; }
