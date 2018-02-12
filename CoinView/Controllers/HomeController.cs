@@ -26,20 +26,40 @@ namespace CoinView.Controllers {
             data["Trades"] = db.Trades.Where(t => t.UserId == userID).Select(t => new { t.TradeId, t.UserId, t.StoreWalletId, t.CoinId, t.Amount, t.BuyWalletId, t.BuyPricePerShare, t.BuyPriceBtc, t.BuyDate, t.SellWalletId, t.SellPricePerShare, t.SellPriceBtc, t.SellDate }).ToList();
             data["Coins"] = db.Coins.Select(c => new { c.CoinId, c.CoinMarketCapId, c.Name, c.Symbol }).ToDictionary(c => c.CoinId);
             data["Wallets"] = db.Wallets.Select(w => new { w.WalletId, w.Name }).ToDictionary(w => w.WalletId);
+            data["CoinValues"] = db.CoinValues.GroupBy(c => c.CoinId).ToDictionary(g => g.Key, g => g.OrderByDescending(c => c.Date).First());
 
             return Json(data);
         }
 
-        public JsonResult GetCoinValues() {
-            Dictionary<string, Coin> coins = db.Coins.ToDictionary(c => c.CoinMarketCapId);
-            using (HttpClient client = new HttpClient()) {
-                client.BaseAddress = new Uri("https://api.coinmarketcap.com");
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                var result = client.GetStringAsync("/v1/ticker/?convert=EUR&limit=500").Result;
-                Dictionary<int, CoinMarketCapResult> values = JsonConvert.DeserializeObject<List<CoinMarketCapResult>>(result).Where(c => coins.ContainsKey(c.ID)).ToDictionary(c => coins[c.ID].CoinId);
-                return Json(values);
-            }
-        }
+        //public JsonResult GetCoinValues() {
+        //    Dictionary<string, Coin> coins = db.Coins.ToDictionary(c => c.CoinMarketCapId);
+        //    using (HttpClient client = new HttpClient()) {
+        //        client.BaseAddress = new Uri("https://api.coinmarketcap.com");
+        //        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        //        var result = client.GetStringAsync("/v1/ticker/?convert=EUR&limit=500").Result;
+        //        Dictionary<int, CoinMarketCapResult> values = JsonConvert.DeserializeObject<List<CoinMarketCapResult>>(result).Where(c => coins.ContainsKey(c.ID)).ToDictionary(c => coins[c.ID].CoinId);
+
+        //        // store in db
+        //        //List<CoinValue> toStore = new List<CoinValue>();
+        //        //DateTime now = DateTime.Now;
+        //        //foreach (CoinMarketCapResult value in values.Values) {
+        //        //    toStore.Add(new CoinValue() {
+        //        //        CoinId = coins[value.ID].CoinId,
+        //        //        Date = now,
+        //        //        PriceBtc = (decimal)value.Price_btc,
+        //        //        PriceEur = (decimal)value.Price_eur,
+        //        //        PriceUsd = (decimal)value.Price_usd,
+        //        //        PercentChange1h = (decimal)value.Percent_change_1h,
+        //        //        PercentChange24h = (decimal)value.Percent_change_24h,
+        //        //        PercentChange7d = (decimal)value.Percent_change_7d
+        //        //    });
+        //        //}
+        //        //db.CoinValues.AddRange(toStore);
+        //        //db.SaveChanges();
+
+        //        return Json(values);
+        //    }
+        //}
 
         public IActionResult Index() {
             return View();

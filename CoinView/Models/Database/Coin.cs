@@ -8,6 +8,7 @@ namespace CoinView.Models.Database
         public Coin()
         {
             Buys = new HashSet<Buy>();
+            CoinValues = new HashSet<CoinValue>();
             Creations = new HashSet<Creation>();
             Trades = new HashSet<Trade>();
         }
@@ -18,6 +19,7 @@ namespace CoinView.Models.Database
         public string Symbol { get; set; }
 
         public ICollection<Buy> Buys { get; set; }
+        public ICollection<CoinValue> CoinValues { get; set; }
         public ICollection<Creation> Creations { get; set; }
         public ICollection<Trade> Trades { get; set; }
     }

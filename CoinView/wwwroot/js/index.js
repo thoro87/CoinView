@@ -49,10 +49,10 @@ function init() {
         return Enumerable.From(mainModel.openTrades()).Select(function (t) { return t.compareValueEUR(); }).Sum();
     });
     mainModel.tradingOpenCreationsBTCSum = ko.pureComputed(function () {
-        return mainModel.hasValues() ? Enumerable.From(mainModel.openCreations()).Select(function (c) { return c.amount() * mainModel.coinValues()[c.coin().CoinId].Price_btc; }).Sum() : 0;
+        return mainModel.hasValues() ? Enumerable.From(mainModel.openCreations()).Select(function (c) { return c.amount() * mainModel.coinValues()[c.coin().CoinId].PriceBtc; }).Sum() : 0;
     });
     mainModel.tradingOpenCreationsEURSum = ko.pureComputed(function () {
-        return mainModel.hasValues() ? Enumerable.From(mainModel.openCreations()).Select(function (c) { return c.amount() * mainModel.coinValues()[c.coin().CoinId].Price_eur; }).Sum() : 0;
+        return mainModel.hasValues() ? Enumerable.From(mainModel.openCreations()).Select(function (c) { return c.amount() * mainModel.coinValues()[c.coin().CoinId].PriceEur; }).Sum() : 0;
     });
     mainModel.holdingsBTCSum = ko.pureComputed(function () {
         return mainModel.tradingOpenTradeCompareValueBTCSum() + mainModel.tradingOpenCreationsBTCSum();
@@ -91,10 +91,6 @@ function init() {
         return mainModel.investmentChangeEURSum() / mainModel.investmentBuyValueEURSum() * 100;
     });
 
-    mainModel.getCoinValues= function () {
-        beginGetCoinValues();
-    };
-
     ko.applyBindings(mainModel);
 
     mainModel.userID.subscribe(function (newValue) {
@@ -104,7 +100,7 @@ function init() {
     });
 
     beginGetData();
-    beginGetCoinValues();
+    //beginGetCoinValues();
 }
 
 function beginGetData() {
@@ -121,7 +117,9 @@ function endGetData(result) {
     mainModel.trades(Enumerable.From(result.Trades).Select(function (t) { return createTrade(t); }).ToArray());
     mainModel.isTradingAccount(mainModel.user().AccountType === 0);
     mainModel.isInvestmentAccount(mainModel.user().AccountType === 1);
+    mainModel.coinValues(result.CoinValues);
     mainModel.isInitialized(true);
+    mainModel.hasValues(true);
 }
 
 function createInvestment(investment) {
@@ -139,7 +137,7 @@ function createInvestment(investment) {
     });
     that.sellValueEUR = ko.pureComputed(function () {
         if (mainModel.hasValues()) {
-            return that.amountInWallet() * mainModel.coinValues()[1].Price_eur;
+            return that.amountInWallet() * mainModel.coinValues()[1].PriceEur;
         } else {
             return null;
         }
@@ -180,7 +178,7 @@ function createCreation(creation) {
             if (that.isSold()) {
                 return that.amount() * that.sellPricePerShare();
             } else {
-                return that.amount() * mainModel.coinValues()[that.coin().CoinId].Price_btc;
+                return that.amount() * mainModel.coinValues()[that.coin().CoinId].PriceBtc;
             }
         } else {
             return 0;
@@ -191,7 +189,7 @@ function createCreation(creation) {
             if (that.isSold()) {
                 return that.amount() * that.sellPricePerShare() * that.sellPriceBTC();
             } else {
-                return that.amount() * mainModel.coinValues()[that.coin().CoinId].Price_eur;
+                return that.amount() * mainModel.coinValues()[that.coin().CoinId].PriceEur;
             }
         } else {
             return 0;
@@ -227,7 +225,7 @@ function createTrade(trade) {
         if (that.isSold()) {
             return that.sellPricePerShare();
         } else if (mainModel.hasValues()) {
-            return mainModel.coinValues()[that.coin().CoinId].Price_btc;
+            return mainModel.coinValues()[that.coin().CoinId].PriceBtc;
         } else {
             return 0;
         }
@@ -236,7 +234,7 @@ function createTrade(trade) {
         if (that.isSold()) {
             return that.sellValueBTC();
         } else if (mainModel.hasValues()) {
-            return that.amount() * mainModel.coinValues()[that.coin().CoinId].Price_btc;
+            return that.amount() * mainModel.coinValues()[that.coin().CoinId].PriceBtc;
         } else {
             return 0;
         }
@@ -245,7 +243,7 @@ function createTrade(trade) {
         if (that.isSold()) {
             return that.sellValueEUR();
         } else if (mainModel.hasValues()) {
-            return that.compareValueBTC() * mainModel.coinValues()[1].Price_eur;
+            return that.compareValueBTC() * mainModel.coinValues()[1].PriceEur;
         } else {
             return 0;
         }
@@ -272,11 +270,11 @@ function createTrade(trade) {
     return that;
 }
 
-function beginGetCoinValues() {
-    xhr.callService(endGetCoinValues, "Home", "GetCoinValues", {});
-}
+//function beginGetCoinValues() {
+//    xhr.callService(endGetCoinValues, "Home", "GetCoinValues", {});
+//}
 
-function endGetCoinValues(coinValues) {
-    mainModel.coinValues(coinValues);
-    mainModel.hasValues(true);
-}
+//function endGetCoinValues(coinValues) {
+//    mainModel.coinValues(coinValues);
+//    mainModel.hasValues(true);
+//}

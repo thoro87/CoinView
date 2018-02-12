@@ -8,6 +8,7 @@ namespace CoinView.Models.Database
     {
         public virtual DbSet<Buy> Buys { get; set; }
         public virtual DbSet<Coin> Coins { get; set; }
+        public virtual DbSet<CoinValue> CoinValues { get; set; }
         public virtual DbSet<Creation> Creations { get; set; }
         public virtual DbSet<Trade> Trades { get; set; }
         public virtual DbSet<User> Users { get; set; }
@@ -78,6 +79,37 @@ namespace CoinView.Models.Database
                 entity.Property(e => e.Symbol)
                     .IsRequired()
                     .HasMaxLength(63);
+            });
+
+            modelBuilder.Entity<CoinValue>(entity =>
+            {
+                entity.Property(e => e.CoinValueId).HasColumnName("CoinValueID");
+
+                entity.Property(e => e.CoinId).HasColumnName("CoinID");
+
+                entity.Property(e => e.PercentChange1h).HasColumnType("decimal(16, 8)");
+
+                entity.Property(e => e.PercentChange24h).HasColumnType("decimal(16, 8)");
+
+                entity.Property(e => e.PercentChange7d).HasColumnType("decimal(16, 8)");
+
+                entity.Property(e => e.PriceBtc)
+                    .HasColumnName("PriceBTC")
+                    .HasColumnType("decimal(16, 8)");
+
+                entity.Property(e => e.PriceEur)
+                    .HasColumnName("PriceEUR")
+                    .HasColumnType("decimal(16, 8)");
+
+                entity.Property(e => e.PriceUsd)
+                    .HasColumnName("PriceUSD")
+                    .HasColumnType("decimal(16, 8)");
+
+                entity.HasOne(d => d.Coin)
+                    .WithMany(p => p.CoinValues)
+                    .HasForeignKey(d => d.CoinId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fkCoinValuesCoinID");
             });
 
             modelBuilder.Entity<Creation>(entity =>
