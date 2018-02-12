@@ -8,10 +8,14 @@ function init() {
     mainModel.users = ko.observable([]);
     mainModel.userID = ko.observable(null);
     mainModel.user = ko.pureComputed(function () {
-        return Enumerable.From(mainModel.users()).Where(function (u) { return u.ID === mainModel.userID(); }).SingleOrDefault();
+        return Enumerable.From(mainModel.users()).Where(function (u) { return u.UserId === mainModel.userID(); }).SingleOrDefault();
     });
     mainModel.isInvestmentAccount = ko.observable(false);
     mainModel.isTradingAccount = ko.observable(false);
+
+    mainModel.wallets = ko.observable({});
+    mainModel.coins = ko.observable({});
+
     mainModel.buys = ko.observableArray([]);
     mainModel.investments = ko.observableArray([]);
     mainModel.trades = ko.observable([]);
@@ -33,10 +37,10 @@ function init() {
 
     // summary trading
     mainModel.tradingBuyBTCSum = ko.pureComputed(function () {
-        return Enumerable.From(mainModel.buys()).Select(function (b) { return b.AmountAfterFee; }).Sum();
+        return Enumerable.From(mainModel.buys()).Select(function (b) { return b.AmountInWallet; }).Sum();
     });
     mainModel.tradingBuyEURSum = ko.pureComputed(function () {
-        return Enumerable.From(mainModel.buys()).Select(function (b) { return b.Amount * b.PriceEUR; }).Sum();
+        return Enumerable.From(mainModel.buys()).Select(function (b) { return b.AmountBought * b.PriceEur; }).Sum();
     });
     mainModel.tradingOpenTradeCompareValueBTCSum = ko.pureComputed(function () {
         return Enumerable.From(mainModel.openTrades()).Select(function (t) { return t.compareValueBTC(); }).Sum();
@@ -45,10 +49,10 @@ function init() {
         return Enumerable.From(mainModel.openTrades()).Select(function (t) { return t.compareValueEUR(); }).Sum();
     });
     mainModel.tradingOpenCreationsBTCSum = ko.pureComputed(function () {
-        return mainModel.hasValues() ? Enumerable.From(mainModel.openCreations()).Select(function (c) { return c.amount() * mainModel.coinValues()[c.coin().ID].Price_btc; }).Sum() : 0;
+        return mainModel.hasValues() ? Enumerable.From(mainModel.openCreations()).Select(function (c) { return c.amount() * mainModel.coinValues()[c.coin().CoinId].Price_btc; }).Sum() : 0;
     });
     mainModel.tradingOpenCreationsEURSum = ko.pureComputed(function () {
-        return mainModel.hasValues() ? Enumerable.From(mainModel.openCreations()).Select(function (c) { return c.amount() * mainModel.coinValues()[c.coin().ID].Price_eur; }).Sum() : 0;
+        return mainModel.hasValues() ? Enumerable.From(mainModel.openCreations()).Select(function (c) { return c.amount() * mainModel.coinValues()[c.coin().CoinId].Price_eur; }).Sum() : 0;
     });
     mainModel.holdingsBTCSum = ko.pureComputed(function () {
         return mainModel.tradingOpenTradeCompareValueBTCSum() + mainModel.tradingOpenCreationsBTCSum();
@@ -109,9 +113,11 @@ function beginGetData() {
 
 function endGetData(result) {
     mainModel.users(result.Users);
+    mainModel.coins(result.Coins);
+    mainModel.wallets(result.Wallets);
     mainModel.buys(result.Buys);
     mainModel.creations(Enumerable.From(result.Creations).Select(function (c) { return createCreation(c); }).ToArray());
-    mainModel.investments(Enumerable.From(result.Investments).Select(function (i) { return createInvestment(i); }).ToArray());
+    mainModel.investments(Enumerable.From(result.Buys).Select(function (b) { return createInvestment(b); }).ToArray()); // TODO
     mainModel.trades(Enumerable.From(result.Trades).Select(function (t) { return createTrade(t); }).ToArray());
     mainModel.isTradingAccount(mainModel.user().AccountType === 0);
     mainModel.isInvestmentAccount(mainModel.user().AccountType === 1);
@@ -121,12 +127,11 @@ function endGetData(result) {
 function createInvestment(investment) {
     var that = {};
 
-    that.user = ko.observable(investment.User);
     that.date = ko.observable(investment.Date);
-    that.exchange = ko.observable(investment.Exchange);
-    that.wallet = ko.observable(investment.Wallet);
-    that.coin = ko.observable(investment.Coin);
-    that.priceEUR = ko.observable(investment.PriceEUR);
+    that.exchange = ko.observable(mainModel.wallets()[investment.ExchangeWalletId]);
+    that.wallet = ko.observable(mainModel.wallets()[investment.WalletId]);
+    that.coin = ko.observable(mainModel.coins()[investment.CoinId]);
+    that.priceEUR = ko.observable(investment.PriceEur);
     that.amountBought = ko.observable(investment.AmountBought);
     that.amountInWallet = ko.observable(investment.AmountInWallet);
     that.buyValueEUR = ko.pureComputed(function () {
@@ -160,13 +165,12 @@ function createInvestment(investment) {
 function createCreation(creation) {
     var that = {};
 
-    that.user = ko.observable(creation.User);
-    that.wallet = ko.observable(creation.Wallet);
-    that.coin = ko.observable(creation.Coin);
+    that.wallet = ko.observable(mainModel.wallets()[creation.WalletId]);
+    that.coin = ko.observable(mainModel.coins()[creation.CoinId]);
     that.amount = ko.observable(creation.Amount);
 
-    that.isSold = ko.observable(creation.SellWallet != null);
-    that.sellWallet = ko.observable(creation.SellWallet);
+    that.isSold = ko.observable(creation.SellWalletId != null);
+    that.sellWallet = ko.observable(mainModel.wallets()[creation.SellWalletId]);
     that.sellDate = ko.observable(creation.SellDate);
     that.sellPricePerShare = ko.observable(creation.SellPricePerShare);
     that.sellPriceBTC = ko.observable(creation.SellPriceBTC);
@@ -176,7 +180,7 @@ function createCreation(creation) {
             if (that.isSold()) {
                 return that.amount() * that.sellPricePerShare();
             } else {
-                return that.amount() * mainModel.coinValues()[that.coin().ID].Price_btc;
+                return that.amount() * mainModel.coinValues()[that.coin().CoinId].Price_btc;
             }
         } else {
             return 0;
@@ -187,7 +191,7 @@ function createCreation(creation) {
             if (that.isSold()) {
                 return that.amount() * that.sellPricePerShare() * that.sellPriceBTC();
             } else {
-                return that.amount() * mainModel.coinValues()[that.coin().ID].Price_eur;
+                return that.amount() * mainModel.coinValues()[that.coin().CoinId].Price_eur;
             }
         } else {
             return 0;
@@ -200,23 +204,22 @@ function createCreation(creation) {
 function createTrade(trade) {
     var that = {};
 
-    that.user = ko.observable(trade.User);
-    that.storeWallet = ko.observable(trade.StoreWallet);
-    that.coin = ko.observable(trade.Coin);
+    that.storeWallet = ko.observable(mainModel.wallets()[trade.StoreWalletId]);
+    that.coin = ko.observable(mainModel.coins()[trade.CoinId]);
     that.amount = ko.observable(trade.Amount);
 
     that.buyDate = ko.observable(trade.BuyDate);
-    that.buyWallet = ko.observable(trade.BuyWallet);
+    that.buyWallet = ko.observable(mainModel.wallets()[trade.BuyWalletId]);
     that.buyPricePerShare = ko.observable(trade.BuyPricePerShare);
-    that.buyPriceBTC = ko.observable(trade.BuyPriceBTC);
+    that.buyPriceBTC = ko.observable(trade.BuyPriceBtc);
     that.buyValueBTC = ko.observable(that.amount() * that.buyPricePerShare());
     that.buyValueEUR = ko.observable(that.buyValueBTC() * that.buyPriceBTC());
 
     that.sellDate = ko.observable(trade.SellDate);
     that.isSold = ko.observable(that.sellDate() != null);
-    that.sellWallet = ko.observable(trade.SellWallet);
+    that.sellWallet = ko.observable(mainModel.wallets()[trade.SellWalletId]);
     that.sellPricePerShare = ko.observable(trade.SellPricePerShare);
-    that.sellPriceBTC = ko.observable(trade.SellPriceBTC);
+    that.sellPriceBTC = ko.observable(trade.SellPriceBtc);
     that.sellValueBTC = ko.observable(that.amount() * that.sellPricePerShare());
     that.sellValueEUR = ko.observable(that.sellValueBTC() * that.sellPriceBTC());
 
@@ -224,7 +227,7 @@ function createTrade(trade) {
         if (that.isSold()) {
             return that.sellPricePerShare();
         } else if (mainModel.hasValues()) {
-            return mainModel.coinValues()[that.coin().ID].Price_btc;
+            return mainModel.coinValues()[that.coin().CoinId].Price_btc;
         } else {
             return 0;
         }
@@ -233,7 +236,7 @@ function createTrade(trade) {
         if (that.isSold()) {
             return that.sellValueBTC();
         } else if (mainModel.hasValues()) {
-            return that.amount() * mainModel.coinValues()[that.coin().ID].Price_btc;
+            return that.amount() * mainModel.coinValues()[that.coin().CoinId].Price_btc;
         } else {
             return 0;
         }

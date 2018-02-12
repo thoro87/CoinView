@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
-namespace CoinView.Models
+namespace CoinView.Models.Database
 {
     public partial class User
     {

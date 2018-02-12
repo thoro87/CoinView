@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CoinView.Models
+namespace CoinView.Models.Database
 {
-    public partial class User
+    public partial class Coin
     {
-        public User()
+        public Coin()
         {
             Buys = new HashSet<Buy>();
             Creations = new HashSet<Creation>();
             Trades = new HashSet<Trade>();
         }
 
-        public int UserId { get; set; }
+        public int CoinId { get; set; }
+        public string CoinMarketCapId { get; set; }
         public string Name { get; set; }
-        public int AccountType { get; set; }
+        public string Symbol { get; set; }
 
         public ICollection<Buy> Buys { get; set; }
         public ICollection<Creation> Creations { get; set; }
