@@ -5,6 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CoinView.Models.Database;
 using CoinView.Models;
+using System.Dynamic;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using Newtonsoft.Json;
 
 namespace CoinView.Controllers {
     public class SummaryController : Controller {
@@ -15,11 +19,44 @@ namespace CoinView.Controllers {
             db = _context;
         }
 
-        public IActionResult Summary() {
+        public IActionResult GetData() {
+            return View("Summary", GetModel());
+        }
 
-            UserSummaryDO userSummary = GetSummaryForUser(1);
+        public IActionResult Update() {
+            Dictionary<string, Coin> coins = db.Coins.ToDictionary(c => c.CoinMarketCapId);
+            using (HttpClient client = new HttpClient()) {
+                client.BaseAddress = new Uri("https://api.coinmarketcap.com");
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                var result = client.GetStringAsync("/v1/ticker/?convert=EUR&limit=500").Result;
+                Dictionary<int, CoinMarketCapResult> values = JsonConvert.DeserializeObject<List<CoinMarketCapResult>>(result).Where(c => coins.ContainsKey(c.ID)).ToDictionary(c => coins[c.ID].CoinId);
 
-            return View(userSummary);
+                List<CoinValue> toStore = new List<CoinValue>();
+                DateTime now = DateTime.Now;
+                foreach (CoinMarketCapResult value in values.Values) {
+                    toStore.Add(new CoinValue() {
+                        CoinId = coins[value.ID].CoinId,
+                        Date = now,
+                        PriceBtc = (decimal)value.Price_btc,
+                        PriceEur = (decimal)value.Price_eur,
+                        PriceUsd = (decimal)value.Price_usd,
+                        PercentChange1h = (decimal)value.Percent_change_1h,
+                        PercentChange24h = (decimal)value.Percent_change_24h,
+                        PercentChange7d = (decimal)value.Percent_change_7d
+                    });
+                }
+                db.CoinValues.AddRange(toStore);
+                db.SaveChanges();
+            }
+
+            return View("Summary", GetModel());
+        }
+
+        private dynamic GetModel() {
+            dynamic model = new ExpandoObject();
+            model.SummaryJanis = GetSummaryForUser(1);
+            model.SummaryLena = GetSummaryForUser(3);
+            return model;
         }
 
         private UserSummaryDO GetSummaryForUser(int userID) {

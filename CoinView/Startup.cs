@@ -44,7 +44,7 @@ namespace CoinView {
             app.UseMvc(routes => {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Summary}/{action=Summary}/{id?}");
+                    template: "{controller=Summary}/{action=GetData}/{id?}");
             });
         }
     }
