@@ -1,33 +1,33 @@
-﻿<script type="text/javascript" src="~/js/summary.js"></script>
+﻿
+<h4>.Summary</h4>
 
-<img id="Throbber" src="~/images/throbber.gif" class="Throbber" />
-
-<div id="Content">
-    <h4>.Summary</h4>
-
-    <div class="SummaryTable">
-        <table>
-            <tr>
-                <th>Invests</th>
-                <td class="Number" data-bind="text: investsSellValueEur().formatMoney()"></td>
-                <th class="Number" data-bind="text: investsBuyValueEur().formatMoney()"></th>
-                <td class="Number" data-bind="text: investsResultValueEur().formatMoney(), css: investsResultValueEur() > 0 ? 'TextGreen' : 'TextRed'"></td>
-            </tr>
-            <tr>
-                <th>Trades</th>
-                <td class="Number" data-bind="text: tradesSellValueEur().formatMoney()"></td>
-                <th class="Number" data-bind="text: tradesBuyValueEur().formatMoney()"></th>
-                <td class="Number" data-bind="text: tradesResultValueEur().formatMoney(), css: tradesResultValueEur() > 0 ? 'TextGreen' : 'TextRed'"></td>
-            </tr>
-            <tr>
-                <th>Creations</th>
-                <td class="Number" data-bind="text: creationsSellValueEur().formatMoney()"></td>
-                <th class="Number" data-bind="text: creationsBuyValueEur().formatMoney()"></th>
-                <td class="Number" data-bind="text: creationsResultValueEur().formatMoney(), css: creationsResultValueEur() > 0 ? 'TextGreen' : 'TextRed'"></td>
-            </tr>
-        </table>
-    </div>
-
+<div class="SummaryTable">
+    <table>
+        <tr>
+            <td>Invests</td>
+            <td class="Number BorderLeft">@Model.InvestsSellValueEUR.ToString("C")</td>
+            <td class="Number">-@Model.InvestsBuyValueEUR.ToString("C")</td>
+            <td class="Number BorderLeft @(Model.InvestsResultValueEUR > 0 ? "TextGreen" : "TextRed")">@Model.InvestsResultValueEUR.ToString("C")</td>
+        </tr>
+        <tr>
+            <td>Trades</td>
+            <td class="Number BorderLeft">@Model.TradesSellValueEUR.ToString("C")</td>
+            <td class="Number">-@Model.TradesBuyValueEUR.ToString("C")</td>
+            <td class="Number BorderLeft @(Model.TradesResultValueEUR > 0 ? "TextGreen" : "TextRed")">@Model.TradesResultValueEUR.ToString("C")</td>
+        </tr>
+        <tr>
+            <td>Creations</td>
+            <td class="Number BorderLeft">@Model.CreationsSellValueEUR.ToString("C")</td>
+            <td class="Number">-@Model.CreationsBuyValueEUR.ToString("C")</td>
+            <td class="Number BorderLeft @(Model.CreationsResultValueEUR > 0 ? "TextGreen" : "TextRed")">@Model.CreationsResultValueEUR.ToString("C")</td>
+        </tr>
+        <tr class="BorderTop">
+            <td>Total</td>
+            <td class="Number BorderLeft">@Model.SellTotalEUR.ToString("C")</td>
+            <td class="Number">-@Model.BuyTotalEUR.ToString("C")</td>
+            <td class="Number BorderLeft @(Model.ResultTotalEUR > 0 ? "TextGreen" : "TextRed")">@Model.ResultTotalEUR.ToString("C")</td>
+        </tr>
+        <tr></tr>
+    </table>
 </div>
 
-<script>init();</script>
