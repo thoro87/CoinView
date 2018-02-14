@@ -1,62 +1,40 @@
 ﻿
 <h4>.Summary</h4>
 
-<div class="SummaryTable">
-    <table>
-        <tr>
-            <td>Invests</td>
-            <td class="Number BorderLeft">@Model.SummaryJanis.InvestsSellValueEUR.ToString("C")</td>
-            <td class="Number">-@Model.SummaryJanis.InvestsBuyValueEUR.ToString("C")</td>
-            <td class="Number BorderLeft @(Model.SummaryJanis.InvestsResultValueEUR >= 0 ? "TextGreen" : "TextRed")">@Model.SummaryJanis.InvestsResultValueEUR.ToString("C")</td>
-        </tr>
-        <tr>
-            <td>Trades</td>
-            <td class="Number BorderLeft">@Model.SummaryJanis.TradesSellValueEUR.ToString("C")</td>
-            <td class="Number">-@Model.SummaryJanis.TradesBuyValueEUR.ToString("C")</td>
-            <td class="Number BorderLeft @(Model.SummaryJanis.TradesResultValueEUR >= 0 ? "TextGreen" : "TextRed")">@Model.SummaryJanis.TradesResultValueEUR.ToString("C")</td>
-        </tr>
-        <tr>
-            <td>Creations</td>
-            <td class="Number BorderLeft">@Model.SummaryJanis.CreationsSellValueEUR.ToString("C")</td>
-            <td class="Number">-@Model.SummaryJanis.CreationsBuyValueEUR.ToString("C")</td>
-            <td class="Number BorderLeft @(Model.SummaryJanis.CreationsResultValueEUR >= 0 ? "TextGreen" : "TextRed")">@Model.SummaryJanis.CreationsResultValueEUR.ToString("C")</td>
-        </tr>
-        <tr class="BorderTop">
-            <td>Total</td>
-            <td class="Number BorderLeft">@Model.SummaryJanis.SellTotalEUR.ToString("C")</td>
-            <td class="Number">-@Model.SummaryJanis.BuyTotalEUR.ToString("C")</td>
-            <td class="Number BorderLeft @(Model.SummaryJanis.ResultTotalEUR >= 0 ? "TextGreen" : "TextRed")">@Model.SummaryJanis.ResultTotalEUR.ToString("C")</td>
-        </tr>
-    </table>
-</div>
-
-<div class="SummaryTable">
-    <table>
-        <tr>
-            <td>Invests</td>
-            <td class="Number BorderLeft">@Model.SummaryLena.InvestsSellValueEUR.ToString("C")</td>
-            <td class="Number">-@Model.SummaryLena.InvestsBuyValueEUR.ToString("C")</td>
-            <td class="Number BorderLeft @(Model.SummaryLena.InvestsResultValueEUR >= 0 ? "TextGreen" : "TextRed")">@Model.SummaryLena.InvestsResultValueEUR.ToString("C")</td>
-        </tr>
-        <tr>
-            <td>Trades</td>
-            <td class="Number BorderLeft">@Model.SummaryLena.TradesSellValueEUR.ToString("C")</td>
-            <td class="Number">-@Model.SummaryLena.TradesBuyValueEUR.ToString("C")</td>
-            <td class="Number BorderLeft @(Model.SummaryLena.TradesResultValueEUR >= 0 ? "TextGreen" : "TextRed")">@Model.SummaryLena.TradesResultValueEUR.ToString("C")</td>
-        </tr>
-        <tr>
-            <td>Creations</td>
-            <td class="Number BorderLeft">@Model.SummaryLena.CreationsSellValueEUR.ToString("C")</td>
-            <td class="Number">-@Model.SummaryLena.CreationsBuyValueEUR.ToString("C")</td>
-            <td class="Number BorderLeft @(Model.SummaryLena.CreationsResultValueEUR >= 0 ? "TextGreen" : "TextRed")">@Model.SummaryLena.CreationsResultValueEUR.ToString("C")</td>
-        </tr>
-        <tr class="BorderTop">
-            <td>Total</td>
-            <td class="Number BorderLeft">@Model.SummaryLena.SellTotalEUR.ToString("C")</td>
-            <td class="Number">-@Model.SummaryLena.BuyTotalEUR.ToString("C")</td>
-            <td class="Number BorderLeft @(Model.SummaryLena.ResultTotalEUR >= 0 ? "TextGreen" : "TextRed")">@Model.SummaryLena.ResultTotalEUR.ToString("C")</td>
-        </tr>
-    </table>
-</div>
+@foreach (var summary in Model.UserSummaries) { 
+    <div class="SummaryTable">
+        <span class="Title">@summary.User.Name</span>
+        <table>
+            <tr>
+                <td>Invests</td>
+                <td class="Number BorderLeft">@summary.InvestsSellValueEUR.ToString("C")</td>
+                <td class="Number">-@summary.InvestsBuyValueEUR.ToString("C")</td>
+                <td class="Number BorderLeft @(summary.InvestsResultValueEUR >= 0 ? "TextGreen" : "TextRed")">@summary.InvestsResultValueEUR.ToString("C")</td>
+                <td class="Number @(summary.InvestsResultPercent >= 0 ? "TextGreen" : "TextRed")">@summary.InvestsResultPercent.ToString("P")</td>
+            </tr>
+            <tr>
+                <td>Trades</td>
+                <td class="Number BorderLeft">@summary.TradesSellValueEUR.ToString("C")</td>
+                <td class="Number">-@summary.TradesBuyValueEUR.ToString("C")</td>
+                <td class="Number BorderLeft @(summary.TradesResultValueEUR >= 0 ? "TextGreen" : "TextRed")">@summary.TradesResultValueEUR.ToString("C")</td>
+                <td class="Number @(summary.TradesResultPercent >= 0 ? "TextGreen" : "TextRed")">@summary.TradesResultPercent.ToString("P")</td>
+            </tr>
+            <tr>
+                <td>Creations</td>
+                <td class="Number BorderLeft">@summary.CreationsSellValueEUR.ToString("C")</td>
+                <td class="Number">-@summary.CreationsBuyValueEUR.ToString("C")</td>
+                <td class="Number BorderLeft @(summary.CreationsResultValueEUR >= 0 ? "TextGreen" : "TextRed")">@summary.CreationsResultValueEUR.ToString("C")</td>
+                <td></td>
+            </tr>
+            <tr class="BorderTop">
+                <td>Total</td>
+                <td class="Number BorderLeft">@summary.TotalSellValueEUR.ToString("C")</td>
+                <td class="Number">-@summary.TotalBuyValueEUR.ToString("C")</td>
+                <td class="Number BorderLeft @(summary.TotalResultValueEUR >= 0 ? "TextGreen" : "TextRed")">@summary.TotalResultValueEUR.ToString("C")</td>
+                <td class="Number @(summary.TotalResultPercent >= 0 ? "TextGreen" : "TextRed")">@summary.TotalResultPercent.ToString("P")</td>
+            </tr> 
+        </table>
+    </div>
+}
 
 <a asp-area="" asp-controller="Summary" asp-action="Update">UPDATE</a>

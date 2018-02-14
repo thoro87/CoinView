@@ -9,9 +9,11 @@
     <Compile Remove="Controllers\DataController.cs" />
     <Compile Remove="Models\CoinViewContext.cs" />
     <Compile Remove="Models\User.cs" />
+    <Compile Remove="Views\Shared\UserSummaryDO.cshtml.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Views\Home\Index.cshtml" />
+    <Content Remove="Views\Shared\UserSummaryDO.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Properties\PublishProfiles\CustomProfile.pubxml" />
