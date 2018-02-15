@@ -26,16 +26,24 @@ h4 {
     padding: 5px 10px 5px 10px;
 }
 
-.SummaryTable td {
+.SummaryTable td, .SummaryTable th {
     padding: 0 10px 0 10px;
 }
 
-.SummaryTable td.BorderLeft {
+.SummaryTable td.BorderLeft, .SummaryTable th.BorderLeft {
     border-left: 1px solid white;
 }
 
-.SummaryTable tr.BorderTop td {
+.SummaryTable tr.BorderTop td, .SummaryTable tr.BorderTop th {
     border-top: 1px solid white;
+}
+
+.SummaryTable th {
+    text-align: right;
+}
+
+.SummaryTable table {
+    display: inline-block;
 }
 
 .SummaryTable .Number {
