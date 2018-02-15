@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace CoinView.Views.Shared
 {
-    public class UserSummaryDOModel : PageModel
+    public class SummaryLayoutModel : PageModel
     {
         public void OnGet()
         {

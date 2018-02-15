@@ -52,39 +52,54 @@ namespace CoinView.Controllers {
             return View("Summary", GetModel());
         }
 
-        private dynamic GetModel() {
-            dynamic model = new ExpandoObject();
-            model.UserSummaries = GetUserSummaries();
-            return model;
+        //private dynamic GetModel() {
+        //    dynamic model = new ExpandoObject();
+        //    model.UserSummaries = GetUserSummaries();
+        //    model.CombinedSummary = GetCombinedSummary();
+        //    return model;
+        //}
+
+        private SummaryViewModel GetModel() {
+            return new SummaryViewModel() {
+                UserSummaries = GetUserSummaries(),
+                CombinedSummary = GetCombinedSummary()
+            };
         }
 
-        private List<UserSummaryDO> GetUserSummaries() {
+        private List<SummaryDO> GetUserSummaries() {
+            List<SummaryDO> userSummaries = new List<SummaryDO>();
             List<User> users = db.Users.ToList();
-            List<UserSummaryDO> userSummaries = new List<UserSummaryDO>();
             foreach (User user in users) {
-                List<Buy> buys = db.Buys.Where(b => b.UserId == user.UserId).ToList();
-                Dictionary<int, CoinValue> coinValues = db.CoinValues.GroupBy(c => c.CoinId).ToDictionary(g => g.Key, g => g.OrderByDescending(c => c.Date).First());
-                List<Trade> trades = db.Trades.Where(t => t.UserId == user.UserId && t.SellWallet == null).ToList();
-                List<Creation> creations = db.Creations.Where(c => c.UserId == user.UserId && c.SellWallet == null).ToList();
-
-                userSummaries.Add(new UserSummaryDO() {
-                    User = user,
-                    InvestsBuyValueEUR = buys.Where(b => b.Purpose == "Invest").Select(b => b.AmountBought * b.PriceEur).Sum(),
-                    InvestsSellValueEUR = buys.Where(b => b.Purpose == "Invest").Select(b => b.AmountInWallet * coinValues[1].PriceEur).Sum(),
-                    InvestsBuyValueBTC = buys.Where(b => b.Purpose == "Invest").Select(b => b.AmountBought).Sum(),
-                    InvestsSellValueBTC = buys.Where(b => b.Purpose == "Invest").Select(b => b.AmountInWallet).Sum(),
-                    TradesBuyValueEUR = buys.Where(b => b.Purpose == "Trade").Select(b => b.AmountBought * b.PriceEur).Sum(),
-                    TradesSellValueEUR = trades.Select(t => t.Amount * coinValues[t.CoinId].PriceEur).Sum(),
-                    TradesBuyValueBTC = buys.Where(b => b.Purpose == "Trade").Select(b => b.AmountBought).Sum(),
-                    TradesSellValueBTC = trades.Select(t => t.Amount * coinValues[t.CoinId].PriceBtc).Sum(),
-                    CreationsBuyValueEUR = 0,
-                    CreationsSellValueEUR = creations.Select(c => c.Amount * coinValues[c.CoinId].PriceEur).Sum(),
-                    CreationsBuyValueBTC = 0,
-                    CreationsSellValueBTC = creations.Select(c => c.Amount * coinValues[c.CoinId].PriceBtc).Sum()
-                });
+                userSummaries.Add(GetSummary(user.Name, new List<int>() { user.UserId }));
             }
-
             return userSummaries;
+        }
+
+        private SummaryDO GetCombinedSummary() {
+            return GetSummary("Combined", db.Users.Select(u => u.UserId).ToList());
+        }
+
+        private SummaryDO GetSummary(string name, List<int> userIDsToInclude) {
+            Dictionary<int, CoinValue> coinValues = db.CoinValues.GroupBy(c => c.CoinId).ToDictionary(g => g.Key, g => g.OrderByDescending(c => c.Date).First());
+            List<Buy> buys = db.Buys.Where(b => userIDsToInclude.Contains(b.UserId)).ToList();
+            List<Trade> trades = db.Trades.Where(t => userIDsToInclude.Contains(t.UserId) && t.SellWallet == null).ToList();
+            List<Creation> creations = db.Creations.Where(c => userIDsToInclude.Contains(c.UserId) && c.SellWallet == null).ToList();
+
+            return new SummaryDO() {
+                Name = name,
+                InvestsBuyValueEUR = buys.Where(b => b.Purpose == "Invest").Select(b => b.AmountBought * b.PriceEur).Sum(),
+                InvestsSellValueEUR = buys.Where(b => b.Purpose == "Invest").Select(b => b.AmountInWallet * coinValues[1].PriceEur).Sum(),
+                InvestsBuyValueBTC = buys.Where(b => b.Purpose == "Invest").Select(b => b.AmountBought).Sum(),
+                InvestsSellValueBTC = buys.Where(b => b.Purpose == "Invest").Select(b => b.AmountInWallet).Sum(),
+                TradesBuyValueEUR = buys.Where(b => b.Purpose == "Trade").Select(b => b.AmountBought * b.PriceEur).Sum(),
+                TradesSellValueEUR = trades.Select(t => t.Amount * coinValues[t.CoinId].PriceEur).Sum(),
+                TradesBuyValueBTC = buys.Where(b => b.Purpose == "Trade").Select(b => b.AmountBought).Sum(),
+                TradesSellValueBTC = trades.Select(t => t.Amount * coinValues[t.CoinId].PriceBtc).Sum(),
+                CreationsBuyValueEUR = 0,
+                CreationsSellValueEUR = creations.Select(c => c.Amount * coinValues[c.CoinId].PriceEur).Sum(),
+                CreationsBuyValueBTC = 0,
+                CreationsSellValueBTC = creations.Select(c => c.Amount * coinValues[c.CoinId].PriceBtc).Sum()
+            };
         }
 
 

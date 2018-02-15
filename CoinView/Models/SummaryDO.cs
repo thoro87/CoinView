@@ -6,9 +6,9 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace CoinView.Models {
-    public class UserSummaryDO {
+    public class SummaryDO {
 
-        public User User;
+        public string Name;
 
         public decimal InvestsBuyValueEUR { get; set; }
         public decimal InvestsSellValueEUR { get; set; }
