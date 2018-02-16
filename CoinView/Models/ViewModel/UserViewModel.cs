@@ -9,5 +9,7 @@ namespace CoinView.Models {
     public class UserViewModel {
 
         public User User { get; set; }
+        public List<TradeDO> OpenTrades { get; set; }
+        public List<TradeDO> ClosedTrades { get; set; }
     }
 }

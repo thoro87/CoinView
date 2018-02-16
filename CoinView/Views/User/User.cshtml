@@ -2,3 +2,35 @@
 
 <h4>.@Model.User.Name</h4>
 
+<p>.OpenTrades</p>
+<table class="SummaryTable">
+    <tr>
+        <td>Coin</td>
+        <th>Amount</th>
+        <th>Change 1h</th>
+        <th>Change 24h</th>
+        <th>Change 7h</th>
+        <th>BuyValueEUR</th>
+        <th>SellValueEUR</th>
+        <th>ProfitEUR</th>
+        <th></th>
+    </tr>
+    @Html.DisplayFor(x => x.OpenTrades)
+</table>
+<br /><br />
+
+<p>.ClosedTrades</p>
+<table class="SummaryTable">
+    <tr>
+        <td>Coin</td>
+        <th>Amount</th>
+        <th>Change 1h</th>
+        <th>Change 24h</th>
+        <th>Change 7h</th>
+        <th>BuyValueEUR</th>
+        <th>SellValueEUR</th>
+        <th>ProfitEUR</th>
+        <th></th>
+    </tr>
+    @Html.DisplayFor(x => x.ClosedTrades)
+</table>
