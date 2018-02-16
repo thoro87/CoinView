@@ -34,10 +34,10 @@
         </tr>
         <tr>
             <th></th>
-            <td class="Number BorderLeft @(Model.InvestsResultValueEURPercent >= 0 ? "TextGreen" : "TextRed")">@Model.InvestsResultValueEURPercent.ToString("P")</td>
-            <td class="Number @(Model.TradesResultValueEURPercent >= 0 ? "TextGreen" : "TextRed")">@Model.TradesResultValueEURPercent.ToString("P")</td>
+            <td class="Number BorderLeft">@Model.InvestsResultValueEURPercent.ToString("P")</td>
+            <td class="Number">@Model.TradesResultValueEURPercent.ToString("P")</td>
             <td></td>
-            <td class="Number BorderLeft @(Model.TotalResultValueEURPercent >= 0 ? "TextGreen" : "TextRed")">@Model.TotalResultValueEURPercent.ToString("P")</td>
+            <td class="Number BorderLeft">@Model.TotalResultValueEURPercent.ToString("P")</td>
         </tr>
     </table>
 
@@ -73,10 +73,10 @@
         </tr>
         <tr>
             <th></th>
-            <td class="Number BorderLeft @(Model.InvestsResultValueBTCPercent >= 0 ? "TextGreen" : "TextRed")">@Model.InvestsResultValueBTCPercent.ToString("P")</td>
-            <td class="Number @(Model.TradesResultValueBTCPercent >= 0 ? "TextGreen" : "TextRed")">@Model.TradesResultValueBTCPercent.ToString("P")</td>
+            <td class="Number">@Model.InvestsResultValueBTCPercent.ToString("P")</td>
+            <td class="Number">@Model.TradesResultValueBTCPercent.ToString("P")</td>
             <td></td>
-            <td class="Number BorderLeft @(Model.TotalResultValueBTCPercent >= 0 ? "TextGreen" : "TextRed")">@Model.TotalResultValueBTCPercent.ToString("P")</td>
+            <td class="Number BorderLeft">@Model.TotalResultValueBTCPercent.ToString("P")</td>
         </tr>
     </table>
 </div>

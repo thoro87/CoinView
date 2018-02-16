@@ -52,13 +52,6 @@ namespace CoinView.Controllers {
             return View("Summary", GetModel());
         }
 
-        //private dynamic GetModel() {
-        //    dynamic model = new ExpandoObject();
-        //    model.UserSummaries = GetUserSummaries();
-        //    model.CombinedSummary = GetCombinedSummary();
-        //    return model;
-        //}
-
         private SummaryViewModel GetModel() {
             return new SummaryViewModel() {
                 UserSummaries = GetUserSummaries(),
