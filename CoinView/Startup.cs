@@ -36,7 +36,7 @@ namespace CoinView {
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
             } else {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Shared/Error");
             }
 
             app.UseStaticFiles();
