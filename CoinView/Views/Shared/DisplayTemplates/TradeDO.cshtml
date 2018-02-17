@@ -2,7 +2,6 @@
 
 <tr>
     <td>@Model.Trade.Coin.Name</td>
-    <td class="Number">@Model.Trade.Amount.ToString("0.########")</td>
     <td class="Number @(Model.PercentChange1h >= 0 ? "TextGreen" : "TextRed")">@Model.PercentChange1h.ToString("P")</td>
     <td class="Number @(Model.PercentChange24h >= 0 ? "TextGreen" : "TextRed")">@Model.PercentChange24h.ToString("P")</td>
     <td class="Number @(Model.PercentChange7d >= 0 ? "TextGreen" : "TextRed")">@Model.PercentChange7d.ToString("P")</td>
