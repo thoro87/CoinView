@@ -24,6 +24,7 @@ h4 {
     background: #131e25;
     border-radius: 7px;
     padding: 5px 10px 5px 10px;
+    margin-right: 50px;
 }
 
 .SummaryTable td, .SummaryTable th {
@@ -60,4 +61,13 @@ h4 {
 
 .Title {
     font-size: 16px;
+}
+
+button {
+    background: #131e25;
+    border-color: #000;
+}
+
+.Content {
+    display: none;
 }

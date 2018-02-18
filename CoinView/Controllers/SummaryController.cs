@@ -78,21 +78,7 @@ namespace CoinView.Controllers {
             List<Trade> trades = db.Trades.Where(t => userIDsToInclude.Contains(t.UserId) && t.SellWallet == null).ToList();
             List<Creation> creations = db.Creations.Where(c => userIDsToInclude.Contains(c.UserId) && c.SellWallet == null).ToList();
 
-            return new SummaryDO() {
-                Name = name,
-                InvestsBuyValueEUR = buys.Where(b => b.Purpose == "Invest").Select(b => b.AmountBought * b.PriceEur).Sum(),
-                InvestsSellValueEUR = buys.Where(b => b.Purpose == "Invest").Select(b => b.AmountInWallet * coinValues[1].PriceEur).Sum(),
-                InvestsBuyValueBTC = buys.Where(b => b.Purpose == "Invest").Select(b => b.AmountBought).Sum(),
-                InvestsSellValueBTC = buys.Where(b => b.Purpose == "Invest").Select(b => b.AmountInWallet).Sum(),
-                TradesBuyValueEUR = buys.Where(b => b.Purpose == "Trade").Select(b => b.AmountBought * b.PriceEur).Sum(),
-                TradesSellValueEUR = trades.Select(t => t.Amount * coinValues[t.CoinId].PriceEur).Sum(),
-                TradesBuyValueBTC = buys.Where(b => b.Purpose == "Trade").Select(b => b.AmountBought).Sum(),
-                TradesSellValueBTC = trades.Select(t => t.Amount * coinValues[t.CoinId].PriceBtc).Sum(),
-                CreationsBuyValueEUR = 0,
-                CreationsSellValueEUR = creations.Select(c => c.Amount * coinValues[c.CoinId].PriceEur).Sum(),
-                CreationsBuyValueBTC = 0,
-                CreationsSellValueBTC = creations.Select(c => c.Amount * coinValues[c.CoinId].PriceBtc).Sum()
-            };
+            return new SummaryDO(name, coinValues, buys, trades, creations);
         }
 
 

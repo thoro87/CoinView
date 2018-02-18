@@ -1,11 +1,35 @@
 ﻿@model CoinView.Models.SummaryViewModel
 
-<h4>.Summary</h4>
+<div class="Content">
+    <h4>.Summary</h4>
 
-@Html.DisplayFor(x => x.UserSummaries)
-<br /><br />
+    @Html.DisplayFor(x => x.UserSummaries)
+    <br /><br /><br />
 
-@Html.DisplayFor(x => x.CombinedSummary)
+    <div style="margin-left: 18%">
+        @Html.DisplayFor(x => x.CombinedSummary)
+    </div>
+    <br />
+    <button id="toggleEURBTC">EUR <> BTC</button>
+    <button type="button" onclick="location.href='@Url.Action("Update", "Summary")'">Update</button>
+</div>
 
-<br />
-<a asp-area="" asp-controller="Summary" asp-action="Update">UPDATE</a>
+<script>
+    var showEUR = true;
+    $("#toggleEURBTC").click(function () { showEUR = !showEUR; updateEURBTC(); });
+    updateEURBTC();
+
+    function updateEURBTC() { 
+        if (showEUR) {
+            $(".SummaryEUR").show();
+            $(".SummaryBTC").hide();
+        } else { 
+            $(".SummaryEUR").hide();
+            $(".SummaryBTC").show();
+        }
+    }
+
+    $(".Content").show();
+
+</script>
+
