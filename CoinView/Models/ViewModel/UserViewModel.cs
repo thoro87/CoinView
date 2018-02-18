@@ -9,6 +9,14 @@ namespace CoinView.Models {
     public class UserViewModel {
 
         public User User { get; set; }
+        
+        public List<InvestDO> Invests { get; set; }
+        public Decimal InvestsAmountBoughtSum { get { return Invests.Select(i => i.AmountBought).Sum(); } }
+        public Decimal InvestsBuyValueEURSum { get { return Invests.Select(i => i.BuyValueEUR).Sum(); } }
+        public Decimal InvestsSellValueEURSum { get { return Invests.Select(i => i.SellValueEUR).Sum(); } }
+        public Decimal InvestsProfitValueEURSum { get { return Invests.Select(i => i.ProfitValueEUR).Sum(); } }
+        public Decimal InvestsProfitValueEURSumPercent { get { return InvestsSellValueEURSum / InvestsBuyValueEURSum - 1; } }
+
         public List<TradeDO> OpenTrades { get; set; }
         public Decimal OpenTradesBuyValueEURSum { get { return OpenTrades.Select(t => t.BuyValueEUR).Sum(); } }
         public Decimal OpenTradesSellValueEURSum { get { return OpenTrades.Select(t => t.SellValueEUR).Sum(); } }

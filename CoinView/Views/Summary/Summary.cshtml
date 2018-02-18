@@ -8,10 +8,10 @@
 
     <div style="margin-left: 18%">
         @Html.DisplayFor(x => x.CombinedSummary)
+        <br /><br />
+        <button id="toggleEURBTC">EUR <> BTC</button>
+        <button type="button" onclick="location.href='@Url.Action("Update", "Summary")'">Update</button>
     </div>
-    <br />
-    <button id="toggleEURBTC">EUR <> BTC</button>
-    <button type="button" onclick="location.href='@Url.Action("Update", "Summary")'">Update</button>
 </div>
 
 <script>

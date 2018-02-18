@@ -22,6 +22,7 @@ namespace CoinView.Controllers {
 
             UserViewModel model = new UserViewModel() {
                 User = db.Users.Single(u => u.UserId == userID),
+                Invests = db.Buys.Where(b => b.UserId == userID && b.Purpose == "Invest").Include(b => b.Wallet).Include(b => b.ExchangeWallet).Select(b => new InvestDO(b, coinValues[1])).OrderBy(i => i.Date).ToList(),
                 OpenTrades = db.Trades.Where(t => t.UserId == userID && t.SellWallet == null).Include(t => t.Coin).Include(t => t.StoreWallet).Include(t => t.BuyWallet).Include(t => t.SellWallet).Select(t => new TradeDO(t, coinValues[t.CoinId])).OrderByDescending(t => t.ProfitValueEUR).ToList(),
                 ClosedTrades = db.Trades.Where(t => t.UserId == userID && t.SellWallet != null).Include(t => t.Coin).Include(t => t.StoreWallet).Include(t => t.BuyWallet).Include(t => t.SellWallet).Select(t => new TradeDO(t, coinValues[t.CoinId])).OrderByDescending(t => t.ProfitValueEUR).ToList()
             };

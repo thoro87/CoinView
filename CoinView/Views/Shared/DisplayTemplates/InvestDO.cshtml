@@ -1,0 +1,11 @@
+﻿@model CoinView.Models.InvestDO
+
+<tr>
+    <td>@Model.Date.ToShortDateString()</td>
+    <td class="Number">@Model.PriceEUR.ToString("C")</td>
+    <td class="Number">@Model.AmountBought.ToString("0.00000000")</td>
+    <td class="Number">@Model.BuyValueEUR.ToString("C")</td>
+    <td class="Number">@Model.SellValueEUR.ToString("C")</td>
+    <td class="Number @(Model.ProfitValueEUR >= 0 ? "TextGreen" : "TextRed")">@Model.ProfitValueEUR.ToString("C")</td>
+    <td class="Number @(Model.ProfitValueEURPercent >= 0 ? "TextGreen" : "TextRed")">@Model.ProfitValueEURPercent.ToString("P")</td>
+</tr>
