@@ -23,7 +23,7 @@
             <td class="Number @(Model.InvestsProfitValueEURSum >= 0 ? "TextGreen" : "TextRed")">@Model.InvestsProfitValueEURSum.ToString("C")</td>
             <td class="Number @(Model.InvestsProfitValueEURSumPercent >= 0 ? "TextGreen" : "TextRed")">@Model.InvestsProfitValueEURSumPercent.ToString("P")</td>
         </tr>
-    </table>
+    </table><br /><br />
 
     <p>.OpenTrades</p>
     <table class="SummaryTable">
@@ -47,7 +47,6 @@
         </tr>
     </table>
     <br />
-
     <p>.ClosedTrades</p>
     <table class="SummaryTable">
         <tr class="BorderBottom">
@@ -69,6 +68,47 @@
             <td class="Number @(Model.ClosedTradesProfitValueEURSumPercent >= 0 ? "TextGreen" : "TextRed")">@Model.ClosedTradesProfitValueEURSumPercent.ToString("P")</td>
         </tr>
     </table>
+    <br /><br />
+
+    <p>.OpenCreations</p>
+    <table class="SummaryTable">
+        <tr class="BorderBottom">
+            <td>Coin</td>
+            <td>Change 1h</td>
+            <td>Change 24h</td>
+            <td>Change 7d</td>
+            <td>SellPricePerShareEUR</td>
+            <td>Amount</td>
+            <td>SellValueBTC</td>
+            <td>SellValueEUR</td>
+        </tr>
+        @Html.DisplayFor(x => x.OpenCreations)
+        <tr class="BorderTop">
+            <td colspan="6"></td>
+            <td class="Number">@Model.OpenCreationsSellValueBTCSum.ToString("0.00000000")</td>
+            <td class="Number TextGreen">@Model.OpenCreationsSellValueEURSum.ToString("C")</td>
+        </tr>
+    </table>
+    <p>.ClosedCreations</p>
+    <table class="SummaryTable">
+        <tr class="BorderBottom">
+            <td>Coin</td>
+            <td>Change 1h</td>
+            <td>Change 24h</td>
+            <td>Change 7d</td>
+            <td>SellPricePerShareEUR</td>
+            <td>Amount</td>
+            <td>SellValueBTC</td>
+            <td>SellValueEUR</td>
+        </tr>
+        @Html.DisplayFor(x => x.ClosedCreations)
+        <tr class="BorderTop">
+            <td colspan="6"></td>
+            <td class="Number">@Model.ClosedCreationsSellValueBTCSum.ToString("0.00000000")</td>
+            <td class="Number TextGreen">@Model.ClosedCreationsSellValueEURSum.ToString("C")</td>
+        </tr>
+    </table>
+
 </div>
 
 <script>

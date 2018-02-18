@@ -28,5 +28,13 @@ namespace CoinView.Models {
         public Decimal ClosedTradesSellValueEURSum { get { return ClosedTrades.Select(t => t.SellValueEUR).Sum(); } }
         public Decimal ClosedTradesProfitValueEURSum { get { return ClosedTrades.Select(t => t.ProfitValueEUR).Sum(); } }
         public Decimal ClosedTradesProfitValueEURSumPercent { get { return ClosedTradesSellValueEURSum / ClosedTradesBuyValueEURSum - 1; } }
+
+        public List<CreationDO> OpenCreations { get; set; }
+        public Decimal OpenCreationsSellValueBTCSum { get { return OpenCreations.Select(c => c.SellValueBTC).Sum(); } }
+        public Decimal OpenCreationsSellValueEURSum { get { return OpenCreations.Select(c => c.SellValueEUR).Sum(); } }
+
+        public List<CreationDO> ClosedCreations { get; set; }
+        public Decimal ClosedCreationsSellValueBTCSum { get { return ClosedCreations.Select(c => c.SellValueBTC).Sum(); } }
+        public Decimal ClosedCreationsSellValueEURSum { get { return ClosedCreations.Select(c => c.SellValueEUR).Sum(); } }
     }
 }

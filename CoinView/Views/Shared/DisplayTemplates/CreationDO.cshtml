@@ -1,0 +1,12 @@
+﻿@model CoinView.Models.CreationDO
+
+<tr>
+    <td>@Model.Creation.Coin.Name</td>
+    <td class="Number @(Model.PercentChange1h >= 0 ? "TextGreen" : "TextRed")">@Model.PercentChange1h.ToString("P")</td>
+    <td class="Number @(Model.PercentChange24h >= 0 ? "TextGreen" : "TextRed")">@Model.PercentChange24h.ToString("P")</td>
+    <td class="Number @(Model.PercentChange7d >= 0 ? "TextGreen" : "TextRed")">@Model.PercentChange7d.ToString("P")</td>
+    <td class="Number">@Model.SellPricePerShareEUR.ToString("C")</td>
+    <td class="Number">@Model.Amount.ToString("0.########")</td>
+    <td class="Number">@Model.SellValueBTC.ToString("0.########")</td>
+    <td class="Number TextGreen">@Model.SellValueEUR.ToString("C")</td>
+</tr>
