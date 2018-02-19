@@ -55,7 +55,8 @@ namespace CoinView.Controllers {
         private SummaryViewModel GetModel() {
             return new SummaryViewModel() {
                 UserSummaries = GetUserSummaries(),
-                CombinedSummary = GetCombinedSummary()
+                CombinedSummary = GetCombinedSummary(),
+                InfoArea = new InfoAreaDO(db.CoinValues.Where(c => c.CoinId == 1).OrderByDescending(c => c.Date).First())
             };
         }
 

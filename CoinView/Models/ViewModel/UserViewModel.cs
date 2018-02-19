@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace CoinView.Models {
     public class UserViewModel {
 
+        public InfoAreaDO InfoArea { get; set; }
         public User User { get; set; }
         
         public List<InvestDO> Invests { get; set; }
@@ -36,5 +37,6 @@ namespace CoinView.Models {
         public List<CreationDO> ClosedCreations { get; set; }
         public Decimal ClosedCreationsSellValueBTCSum { get { return ClosedCreations.Select(c => c.SellValueBTC).Sum(); } }
         public Decimal ClosedCreationsSellValueEURSum { get { return ClosedCreations.Select(c => c.SellValueEUR).Sum(); } }
+
     }
 }

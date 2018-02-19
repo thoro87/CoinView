@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace CoinView.Models {
     public class SummaryViewModel {
 
+        public InfoAreaDO InfoArea { get; set; }
         public List<SummaryDO> UserSummaries { get; set; }
         public SummaryDO CombinedSummary { get; set; }
     }

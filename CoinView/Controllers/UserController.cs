@@ -27,6 +27,7 @@ namespace CoinView.Controllers {
                 ClosedTrades = db.Trades.Where(t => t.UserId == userID && t.SellWallet != null).Include(t => t.Coin).Include(t => t.StoreWallet).Include(t => t.BuyWallet).Include(t => t.SellWallet).Select(t => new TradeDO(t, coinValues[t.CoinId])).OrderByDescending(t => t.ProfitValueEUR).ToList(),
                 OpenCreations = db.Creations.Where(c => c.UserId == userID && c.SellWallet == null).Include(c => c.Coin).Include(c => c.Wallet).Select(c => new CreationDO(c, coinValues[c.CoinId])).OrderByDescending(c => c.SellValueEUR).ToList(),
                 ClosedCreations = db.Creations.Where(c => c.UserId == userID && c.SellWallet != null).Include(c => c.Coin).Include(c => c.Wallet).Select(c => new CreationDO(c, coinValues[c.CoinId])).OrderByDescending(c => c.SellValueEUR).ToList(),
+                InfoArea = new InfoAreaDO(coinValues[1])
             };
 
             return View("User", model);

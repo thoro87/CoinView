@@ -73,3 +73,19 @@ button {
 .Content {
     display: none;
 }
+
+.InfoArea {
+    display: inline-block;
+    padding-left: 280px;
+    padding-top: 15px;
+}
+
+
+.BitcoinPrice {
+    padding-left: 40px;
+}
+
+.Timestamp {
+    padding-left: 40px;
+    color: darkgrey;
+}
