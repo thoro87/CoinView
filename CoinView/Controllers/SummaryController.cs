@@ -47,9 +47,37 @@ namespace CoinView.Controllers {
                 }
                 db.CoinValues.AddRange(toStore);
                 db.SaveChanges();
+
+                StoreSnapshot(toStore.ToDictionary(t => t.CoinId));
             }
 
+            //foreach (List<CoinValue> coinvalues in db.CoinValues.GroupBy(v => v.Date).ToDictionary(g => g.Key, g => g.ToList()).Values) {
+            //    StoreSnapshot(coinvalues.ToDictionary(c => c.CoinId));
+            //}
+
             return View("Summary", GetModel());
+        }
+
+        private void StoreSnapshot(Dictionary<int, CoinValue> coinValues) {
+            DateTime date = coinValues[1].Date;
+
+            List<Snapshot> newSnapshots = new List<Snapshot>();
+            foreach (User user in db.Users) {
+                Snapshot newSnapshot = new Snapshot() {
+                    UserId = user.UserId,
+                    Date = date,
+                    InvestsBuyValueEur = db.Buys.Where(b => b.UserId == user.UserId && b.Purpose == "Invest").Select(b => b.AmountBought * b.PriceEur).Sum(),
+                    InvestsSellValueEur = db.Buys.Where(b => b.UserId == user.UserId && b.Purpose == "Invest").Select(b => b.AmountInWallet * coinValues[1].PriceEur).Sum(),
+                    TradesBuyValueEur = db.Buys.Where(b => b.UserId == user.UserId && b.Purpose == "Trade").Select(b => b.AmountBought * b.PriceEur).Sum(),
+                    TradesSellValueEur = db.Trades.Where(t => t.UserId == user.UserId && t.SellWallet == null).Select(t => t.Amount * coinValues[t.CoinId].PriceEur).Sum(),
+                    CreationsBuyValueEur = 0,
+                    CreationsSellValueEur = db.Creations.Where(c => c.UserId == user.UserId && c.SellWallet == null).Select(c => c.Amount * coinValues[c.CoinId].PriceEur).Sum()
+                };
+                newSnapshots.Add(newSnapshot);
+            }
+
+            db.Snapshots.AddRange(newSnapshots);
+            db.SaveChanges();
         }
 
         private SummaryViewModel GetModel() {

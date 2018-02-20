@@ -10,6 +10,7 @@ namespace CoinView.Models.Database
         public virtual DbSet<Coin> Coins { get; set; }
         public virtual DbSet<CoinValue> CoinValues { get; set; }
         public virtual DbSet<Creation> Creations { get; set; }
+        public virtual DbSet<Snapshot> Snapshots { get; set; }
         public virtual DbSet<Trade> Trades { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Wallet> Wallets { get; set; }
@@ -158,6 +159,43 @@ namespace CoinView.Models.Database
                     .HasForeignKey(d => d.WalletId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fkCreationsWalletID");
+            });
+
+            modelBuilder.Entity<Snapshot>(entity =>
+            {
+                entity.Property(e => e.SnapshotId).HasColumnName("SnapshotID");
+
+                entity.Property(e => e.CreationsBuyValueEur)
+                    .HasColumnName("CreationsBuyValueEUR")
+                    .HasColumnType("decimal(16, 8)");
+
+                entity.Property(e => e.CreationsSellValueEur)
+                    .HasColumnName("CreationsSellValueEUR")
+                    .HasColumnType("decimal(16, 8)");
+
+                entity.Property(e => e.InvestsBuyValueEur)
+                    .HasColumnName("InvestsBuyValueEUR")
+                    .HasColumnType("decimal(16, 8)");
+
+                entity.Property(e => e.InvestsSellValueEur)
+                    .HasColumnName("InvestsSellValueEUR")
+                    .HasColumnType("decimal(16, 8)");
+
+                entity.Property(e => e.TradesBuyValueEur)
+                    .HasColumnName("TradesBuyValueEUR")
+                    .HasColumnType("decimal(16, 8)");
+
+                entity.Property(e => e.TradesSellValueEur)
+                    .HasColumnName("TradesSellValueEUR")
+                    .HasColumnType("decimal(16, 8)");
+
+                entity.Property(e => e.UserId).HasColumnName("UserID");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Snapshots)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fkSnapshotsUserID");
             });
 
             modelBuilder.Entity<Trade>(entity =>
