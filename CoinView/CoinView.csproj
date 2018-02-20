@@ -6,13 +6,6 @@
     <PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="Controllers\DataController.cs" />
-    <Compile Remove="Models\CoinViewContext.cs" />
-    <Compile Remove="Models\DataObjects\SummaryBTCDO.cs" />
-    <Compile Remove="Models\DataObjects\SummaryEURDO.cs" />
-    <Compile Remove="Models\User.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Remove="Views\Shared\_BitcoinValue.cshtml" />
   </ItemGroup>
   <ItemGroup>
