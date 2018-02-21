@@ -1,5 +1,16 @@
 ﻿@model CoinView.Models.UserViewModel
 
+@section InfoArea {
+    <div class="InfoArea">
+        BTC &nbsp;&nbsp;
+        <span class="@(Model.InfoArea.BitcoinChangePercent1h >= 0 ? "TextGreen" : "TextRed")">@Model.InfoArea.BitcoinChangePercent1h.ToString("P")</span> /
+        <span class="@(Model.InfoArea.BitcoinChangePercent24h >= 0 ? "TextGreen" : "TextRed")">@Model.InfoArea.BitcoinChangePercent24h.ToString("P")</span> /
+        <span class="@(Model.InfoArea.BitcoinChangePercent7d >= 0 ? "TextGreen" : "TextRed")">@Model.InfoArea.BitcoinChangePercent7d.ToString("P")</span>
+        <span class="BitcoinPrice">@Model.InfoArea.BitcoinPriceEUR / @Model.InfoArea.BitcoinPriceUSD</span>
+        <span class="Timestamp">@Model.InfoArea.Timestamp.ToString()</span>
+    </div>
+}
+
 <div class="Content">
     <h4>.@Model.User.Name</h4>
 
@@ -120,14 +131,3 @@
 <script>
     $(".Content").show();
 </script>
-
-@section InfoArea {
-    <div class="InfoArea">
-        BTC &nbsp;&nbsp;
-        <span class="@(Model.InfoArea.BitcoinChangePercent1h >= 0 ? "TextGreen" : "TextRed")">@Model.InfoArea.BitcoinChangePercent1h.ToString("P")</span> /
-        <span class="@(Model.InfoArea.BitcoinChangePercent24h >= 0 ? "TextGreen" : "TextRed")">@Model.InfoArea.BitcoinChangePercent24h.ToString("P")</span> /
-        <span class="@(Model.InfoArea.BitcoinChangePercent7d >= 0 ? "TextGreen" : "TextRed")">@Model.InfoArea.BitcoinChangePercent7d.ToString("P")</span>
-        <span class="BitcoinPrice">@Model.InfoArea.BitcoinPriceEUR / @Model.InfoArea.BitcoinPriceUSD</span>
-        <span class="Timestamp">@Model.InfoArea.Timestamp.ToString()</span>
-    </div>
-}

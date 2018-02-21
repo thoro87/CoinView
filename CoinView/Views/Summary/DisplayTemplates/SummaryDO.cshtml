@@ -79,4 +79,34 @@
             <td class="Number BorderLeft">@Model.TotalResultValueBTCPercent.ToString("P")</td>
         </tr>
     </table>
+
+    <canvas id="@("chart" + Model.Name)" width="100" height="50"></canvas>
+    <script>
+        var ctx = $("#" + "@("chart" + Model.Name)");
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: @Html.Raw(Json.Serialize(Model.ChartDates)),
+                datasets: [{
+                    label: 'BuyValue',
+                    data: @Html.Raw(Json.Serialize(Model.ChartBuyValuesEUR)),
+                    borderColor: 'rgba(255,74,74,1)',
+                    lineTension: 0
+                }, {
+                    label: 'SellValue',
+                    data: @Html.Raw(Json.Serialize(Model.ChartSellValuesEUR)),
+                    borderColor: 'rgba(33,222,82,1)',
+                    lineTension: 0
+                }, {
+                    label: 'HouseStart',
+                    data: @Html.Raw(Json.Serialize(Model.ChartHouseStartEUR)),
+                    borderColor: 'rgba(255, 255, 255, 1)',
+                    lineTension: 0,
+                    hidden: true
+                }]
+            },
+            options: {}
+        });
+    </script>
+
 </div>

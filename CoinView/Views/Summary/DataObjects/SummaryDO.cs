@@ -13,6 +13,7 @@ namespace CoinView.Models {
         public List<Buy> Buys;
         public List<Trade> Trades;
         public List<Creation> Creations;
+        public List<SnapshotDO> Snapshots;
 
         public decimal InvestsBuyValueEUR { get { return Buys.Where(b => b.Purpose == "Invest").Select(b => b.AmountBought * b.PriceEur).Sum(); } }
         public decimal InvestsSellValueEUR { get { return Buys.Where(b => b.Purpose == "Invest").Select(b => b.AmountInWallet * CoinValues[1].PriceEur).Sum(); } }
@@ -48,12 +49,18 @@ namespace CoinView.Models {
         public decimal TotalResultValueBTC { get { return TotalSellValueBTC - TotalBuyValueBTC; } }
         public decimal TotalResultValueBTCPercent { get { return TotalSellValueBTC / TotalBuyValueBTC - 1; } }
 
-        public SummaryDO(string name, Dictionary<int, CoinValue> coinValues, List<Buy> buys, List<Trade> trades, List<Creation> creations) {
+        public List<string> ChartDates { get { return Snapshots.OrderBy(s => s.Date).Select(s => s.Date.ToShortDateString()).Distinct().ToList(); } }
+        public List<Decimal> ChartBuyValuesEUR { get { return Snapshots.OrderBy(s => s.Date).GroupBy(s => s.Date).Select(g => g.Select(x => x.TotalBuyValueEUR).Sum()).ToList(); } }
+        public List<Decimal> ChartSellValuesEUR { get { return Snapshots.OrderBy(s => s.Date).GroupBy(s => s.Date).Select(g => g.Select(x => x.TotalSellValueEUR).Sum()).ToList(); } }
+        public List<Decimal> ChartHouseStartEUR { get { return ChartDates.Select(c => 50000m).ToList(); } }
+
+        public SummaryDO(string name, Dictionary<int, CoinValue> coinValues, List<Buy> buys, List<Trade> trades, List<Creation> creations, List<Snapshot> snapshots) {
             Name = name;
             CoinValues = coinValues;
             Buys = buys;
             Trades = trades;
             Creations = creations;
+            Snapshots = snapshots.Select(s => new SnapshotDO(s)).ToList();
         }
 
     }

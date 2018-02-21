@@ -106,8 +106,9 @@ namespace CoinView.Controllers {
             List<Buy> buys = db.Buys.Where(b => userIDsToInclude.Contains(b.UserId)).ToList();
             List<Trade> trades = db.Trades.Where(t => userIDsToInclude.Contains(t.UserId) && t.SellWallet == null).ToList();
             List<Creation> creations = db.Creations.Where(c => userIDsToInclude.Contains(c.UserId) && c.SellWallet == null).ToList();
+            List<Snapshot> snapshots = db.Snapshots.Where(s => userIDsToInclude.Contains(s.UserId)).ToList();
 
-            return new SummaryDO(name, coinValues, buys, trades, creations);
+            return new SummaryDO(name, coinValues, buys, trades, creations, snapshots);
         }
 
 
