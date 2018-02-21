@@ -2,12 +2,24 @@
 
 @section InfoArea {
     <div class="InfoArea">
-        BTC &nbsp;&nbsp;
-        <span class="@(Model.InfoArea.BitcoinChangePercent1h >= 0 ? "TextGreen" : "TextRed")">@Model.InfoArea.BitcoinChangePercent1h.ToString("P")</span> /
-        <span class="@(Model.InfoArea.BitcoinChangePercent24h >= 0 ? "TextGreen" : "TextRed")">@Model.InfoArea.BitcoinChangePercent24h.ToString("P")</span> /
-        <span class="@(Model.InfoArea.BitcoinChangePercent7d >= 0 ? "TextGreen" : "TextRed")">@Model.InfoArea.BitcoinChangePercent7d.ToString("P")</span>
-        <span class="BitcoinPrice">@Model.InfoArea.BitcoinPriceEUR / @Model.InfoArea.BitcoinPriceUSD</span>
-        <span class="Timestamp">@Model.InfoArea.Timestamp.ToString()</span>
+        <table>
+            <tr>
+                <td></td>
+                <td>1h</td>
+                <td>24h</td>
+                <td>7d</td>
+                <td>@Model.InfoArea.BitcoinPriceUSD</td>
+                <td class="Timestamp">@Model.InfoArea.Timestamp.ToString()</td>
+            </tr>
+            <tr>
+                <td>BTC</td>
+                <td class="@(Model.InfoArea.BitcoinChangePercent1h >= 0 ? "TextGreen" : "TextRed")">@Model.InfoArea.BitcoinChangePercent1h.ToString("P")</td>
+                <td class="@(Model.InfoArea.BitcoinChangePercent24h >= 0 ? "TextGreen" : "TextRed")">@Model.InfoArea.BitcoinChangePercent24h.ToString("P")</td>
+                <td class="@(Model.InfoArea.BitcoinChangePercent7d >= 0 ? "TextGreen" : "TextRed")">@Model.InfoArea.BitcoinChangePercent7d.ToString("P")</td>
+                <td>@Model.InfoArea.BitcoinPriceEUR</td>
+                <td></td>
+            </tr>
+        </table>
     </div>
 }
 

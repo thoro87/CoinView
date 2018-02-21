@@ -76,16 +76,20 @@ button {
 
 .InfoArea {
     display: inline-block;
-    padding-left: 280px;
-    padding-top: 15px;
+    padding-left: 380px;
+    padding-top: 5px;
+    vertical-align:top;
 }
 
+.InfoArea table {
+    display: inline-block;
+}
 
-.BitcoinPrice {
-    padding-left: 40px;
+.InfoArea table td {
+    padding-right: 20px;
 }
 
 .Timestamp {
-    padding-left: 40px;
+    padding-left: 30px;
     color: darkgrey;
 }
