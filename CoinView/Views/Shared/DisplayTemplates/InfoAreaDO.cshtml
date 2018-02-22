@@ -16,7 +16,7 @@
             <td class="@(Model.BitcoinChangePercent24h >= 0 ? "TextGreen" : "TextRed")">@Model.BitcoinChangePercent24h.ToString("P")</td>
             <td class="@(Model.BitcoinChangePercent7d >= 0 ? "TextGreen" : "TextRed")">@Model.BitcoinChangePercent7d.ToString("P")</td>
             <td>@Model.BitcoinPriceEUR</td>
-            <td></td>
+            <td style="padding-left: 24px"><button type="button" onclick="location.href='@Url.Action("Update", "Summary")'">Update</button></td>
         </tr>
     </table>
 </div>
