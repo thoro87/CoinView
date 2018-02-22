@@ -1,0 +1,22 @@
+﻿@model CoinView.Models.InfoAreaDO
+
+<div class="InfoArea">
+    <table>
+        <tr>
+            <td></td>
+            <td>1h</td>
+            <td>24h</td>
+            <td>7d</td>
+            <td>@Model.BitcoinPriceUSD</td>
+            <td class="Timestamp">@Model.Timestamp.ToString()</td>
+        </tr>
+        <tr>
+            <td>BTC</td>
+            <td class="@(Model.BitcoinChangePercent1h >= 0 ? "TextGreen" : "TextRed")">@Model.BitcoinChangePercent1h.ToString("P")</td>
+            <td class="@(Model.BitcoinChangePercent24h >= 0 ? "TextGreen" : "TextRed")">@Model.BitcoinChangePercent24h.ToString("P")</td>
+            <td class="@(Model.BitcoinChangePercent7d >= 0 ? "TextGreen" : "TextRed")">@Model.BitcoinChangePercent7d.ToString("P")</td>
+            <td>@Model.BitcoinPriceEUR</td>
+            <td></td>
+        </tr>
+    </table>
+</div>
