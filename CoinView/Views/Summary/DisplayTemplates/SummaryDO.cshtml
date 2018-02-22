@@ -80,7 +80,7 @@
         </tr>
     </table>
 
-    <br /><br />
+    <br />
     <canvas id="@("chart" + Model.Name)" width="100" height="50"></canvas>
     <script>
         var ctx = $("#" + "@("chart" + Model.Name)");
@@ -88,25 +88,43 @@
             type: 'line',
             data: {
                 labels: @Html.Raw(Json.Serialize(Model.ChartDates)),
-                datasets: [{
-                    label: 'BuyValue',
-                    data: @Html.Raw(Json.Serialize(Model.ChartBuyValuesEUR)),
-                    borderColor: 'rgba(255,74,74,1)',
-                    lineTension: 0
-                }, {
-                    label: 'SellValue',
-                    data: @Html.Raw(Json.Serialize(Model.ChartSellValuesEUR)),
-                    borderColor: 'rgba(33,222,82,1)',
-                    lineTension: 0
-                }, {
-                    label: 'HouseStart',
-                    data: @Html.Raw(Json.Serialize(Model.ChartHouseStartEUR)),
-                    borderColor: 'rgba(255, 255, 255, 1)',
-                    lineTension: 0,
-                    hidden: true
+                datasets: [
+                    {
+                        label: 'Total',
+                        data: @Html.Raw(Json.Serialize(Model.ChartTotalSellValuesEUR)),
+                        borderColor: 'rgba(33,222,82,1)',
+                        lineTension: 0
+                    },
+                    {
+                        label: 'Buy',
+                        data: @Html.Raw(Json.Serialize(Model.ChartTotalBuyValuesEUR)),
+                        borderColor: 'rgba(255,74,74,1)',
+                        lineTension: 0,
+                        hidden: true
+                    },
+                    {
+                        label: 'Invests',
+                        data: @Html.Raw(Json.Serialize(Model.ChartInvestsSellValuesEUR)),
+                        borderColor: 'rgba(33,222,255,1)',
+                        lineTension: 0,
+                        hidden: true
+                    },
+                    {
+                        label: 'Trades',
+                        data: @Html.Raw(Json.Serialize(Model.ChartTradesSellValuesEUR)),
+                        borderColor: 'rgba(160,60,160,1)',
+                        lineTension: 0,
+                        hidden: true
+                    },
+                    {
+                        label: '50k',
+                        data: @Html.Raw(Json.Serialize(Model.ChartHouseStartEUR)),
+                        borderColor: 'rgba(255, 255, 255, 1)',
+                        lineTension: 0,
+                        hidden: true
                 }]
             },
-            options: {}
+            options: { legend: { labels: { boxWidth: 2, padding: 15 } }}
         });
     </script>
 

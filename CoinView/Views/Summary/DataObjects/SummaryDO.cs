@@ -50,8 +50,10 @@ namespace CoinView.Models {
         public decimal TotalResultValueBTCPercent { get { return TotalSellValueBTC / TotalBuyValueBTC - 1; } }
 
         public List<string> ChartDates { get { return Snapshots.OrderBy(s => s.Date).Select(s => s.Date.ToShortDateString()).Distinct().ToList(); } }
-        public List<Decimal> ChartBuyValuesEUR { get { return Snapshots.OrderBy(s => s.Date).GroupBy(s => s.Date).Select(g => g.Select(x => x.TotalBuyValueEUR).Sum()).ToList(); } }
-        public List<Decimal> ChartSellValuesEUR { get { return Snapshots.OrderBy(s => s.Date).GroupBy(s => s.Date).Select(g => g.Select(x => x.TotalSellValueEUR).Sum()).ToList(); } }
+        public List<Decimal> ChartTotalBuyValuesEUR { get { return Snapshots.OrderBy(s => s.Date).GroupBy(s => s.Date).Select(g => g.Select(x => x.TotalBuyValueEUR).Sum()).ToList(); } }
+        public List<Decimal> ChartTotalSellValuesEUR { get { return Snapshots.OrderBy(s => s.Date).GroupBy(s => s.Date).Select(g => g.Select(x => x.TotalSellValueEUR).Sum()).ToList(); } }
+        public List<Decimal> ChartInvestsSellValuesEUR { get { return Snapshots.OrderBy(s => s.Date).GroupBy(s => s.Date).Select(g => g.Select(x => x.InvestsSellValueEUR).Sum()).ToList(); } }
+        public List<Decimal> ChartTradesSellValuesEUR { get { return Snapshots.OrderBy(s => s.Date).GroupBy(s => s.Date).Select(g => g.Select(x => x.TradesSellValueEUR).Sum()).ToList(); } }
         public List<Decimal> ChartHouseStartEUR { get { return ChartDates.Select(c => 50000m).ToList(); } }
 
         public SummaryDO(string name, Dictionary<int, CoinValue> coinValues, List<Buy> buys, List<Trade> trades, List<Creation> creations, List<Snapshot> snapshots) {
