@@ -51,10 +51,6 @@ namespace CoinView.Controllers {
                 StoreSnapshot(toStore.ToDictionary(t => t.CoinId));
             }
 
-            //foreach (List<CoinValue> coinvalues in db.CoinValues.GroupBy(v => v.Date).ToDictionary(g => g.Key, g => g.ToList()).Values) {
-            //    StoreSnapshot(coinvalues.ToDictionary(c => c.CoinId));
-            //}
-
             return View("Summary", GetModel());
         }
 
@@ -69,9 +65,9 @@ namespace CoinView.Controllers {
                     InvestsBuyValueEur = db.Buys.Where(b => b.UserId == user.UserId && b.Purpose == "Invest").Select(b => b.AmountBought * b.PriceEur).Sum(),
                     InvestsSellValueEur = db.Buys.Where(b => b.UserId == user.UserId && b.Purpose == "Invest").Select(b => b.AmountInWallet * coinValues[1].PriceEur).Sum(),
                     TradesBuyValueEur = db.Buys.Where(b => b.UserId == user.UserId && b.Purpose == "Trade").Select(b => b.AmountBought * b.PriceEur).Sum(),
-                    TradesSellValueEur = db.Trades.Where(t => t.UserId == user.UserId && t.SellWallet == null).Select(t => t.Amount * coinValues[t.CoinId].PriceEur).Sum(),
+                    TradesSellValueEur = db.Trades.Where(t => t.UserId == user.UserId && (t.SellDate == null || t.SellDate > DateTime.Now)).Select(t => t.Amount * coinValues[t.CoinId].PriceEur).Sum(),
                     CreationsBuyValueEur = 0,
-                    CreationsSellValueEur = db.Creations.Where(c => c.UserId == user.UserId && c.SellWallet == null).Select(c => c.Amount * coinValues[c.CoinId].PriceEur).Sum()
+                    CreationsSellValueEur = db.Creations.Where(c => c.UserId == user.UserId && (c.SellDate == null || c.SellDate > DateTime.Now)).Select(c => c.Amount * coinValues[c.CoinId].PriceEur).Sum()
                 };
                 newSnapshots.Add(newSnapshot);
             }
