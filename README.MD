@@ -7,6 +7,7 @@ Involved technologies:
 - ASP.NET Core 2.0
 - Razor Views (ASP MVC, not RazorPages)
 - Entity Framework Core
+- CoinMarketCap API
 - chart.js
 
 CoinView features multiple users and provides a summary overview (using dummy data here obviously):
