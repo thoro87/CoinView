@@ -13,4 +13,4 @@ CoinView features multiple users and provides a summary overview (using dummy da
 ![Summary-Page](http://www.janislanger.com/games/CoinView/2018-02-24_CoinView_02.png)
 
 This is the details page for a user with all buys, trades and creations:
-![User-Page](http://www.janislanger.com/games/CoinView/2018-02-24_CoinView_01.png)
+![User-Page](http://www.janislanger.com/games/CoinView/2018-02-24_CoinView_03.png)
