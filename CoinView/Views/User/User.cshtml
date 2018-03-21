@@ -33,7 +33,7 @@
     <table class="SummaryTable">
         <tr class="BorderBottom">
             <td>Coin</td>
-            <th>Change 1h</th>
+            @*<th>Change 1h</th>*@
             <th>Change 24h</th>
             <th>Change 7h</th>
             <th>Amount</th>
@@ -46,7 +46,7 @@
         </tr>
         @Html.DisplayFor(x => x.OpenTrades)
         <tr class="BorderTop">
-            <td colspan="7"></td>
+            <td colspan="6"></td>
             <td class="Number">@Model.OpenTradesBuyValueEURSum.ToString("C")</td>
             <td class="Number">@Model.OpenTradesSellValueEURSum.ToString("C")</td>
             <td class="Number @(Model.OpenTradesProfitValueEURSum >= 0 ? "TextGreen" : "TextRed")">@Model.OpenTradesProfitValueEURSum.ToString("C")</td>
@@ -58,7 +58,7 @@
     <table class="SummaryTable">
         <tr class="BorderBottom">
             <td>Coin</td>
-            <th>Change 1h</th>
+            @*<th>Change 1h</th>*@
             <th>Change 24h</th>
             <th>Change 7h</th>
             <th>Amount</th>
@@ -71,7 +71,7 @@
         </tr>
         @Html.DisplayFor(x => x.ClosedTrades)
         <tr class="BorderTop">
-            <td colspan="7"></td>
+            <td colspan="6"></td>
             <td class="Number">@Model.ClosedTradesBuyValueEURSum.ToString("C")</td>
             <td class="Number">@Model.ClosedTradesSellValueEURSum.ToString("C")</td>
             <td class="Number @(Model.ClosedTradesProfitValueEURSum >= 0 ? "TextGreen" : "TextRed")">@Model.ClosedTradesProfitValueEURSum.ToString("C")</td>
@@ -84,7 +84,7 @@
     <table class="SummaryTable">
         <tr class="BorderBottom">
             <td>Coin</td>
-            <td>Change 1h</td>
+            @*<td>Change 1h</td>*@
             <td>Change 24h</td>
             <td>Change 7d</td>
             <td>SellPricePerShareEUR</td>
@@ -94,7 +94,7 @@
         </tr>
         @Html.DisplayFor(x => x.OpenCreations)
         <tr class="BorderTop">
-            <td colspan="6"></td>
+            <td colspan="5"></td>
             <td class="Number">@Model.OpenCreationsSellValueBTCSum.ToString("0.00000000")</td>
             <td class="Number TextGreen">@Model.OpenCreationsSellValueEURSum.ToString("C")</td>
         </tr>
@@ -103,7 +103,7 @@
     <table class="SummaryTable">
         <tr class="BorderBottom">
             <td>Coin</td>
-            <td>Change 1h</td>
+            @*<td>Change 1h</td>*@
             <td>Change 24h</td>
             <td>Change 7d</td>
             <td>SellPricePerShareEUR</td>
@@ -113,7 +113,7 @@
         </tr>
         @Html.DisplayFor(x => x.ClosedCreations)
         <tr class="BorderTop">
-            <td colspan="6"></td>
+            <td colspan="5"></td>
             <td class="Number">@Model.ClosedCreationsSellValueBTCSum.ToString("0.00000000")</td>
             <td class="Number TextGreen">@Model.ClosedCreationsSellValueEURSum.ToString("C")</td>
         </tr>
