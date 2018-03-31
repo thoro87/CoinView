@@ -49,7 +49,7 @@ namespace CoinView.Models {
         public decimal TotalResultValueBTC { get { return TotalSellValueBTC - TotalBuyValueBTC; } }
         public decimal TotalResultValueBTCPercent { get { return TotalSellValueBTC / TotalBuyValueBTC - 1; } }
 
-        public List<string> ChartDates { get { return Snapshots.OrderBy(s => s.Date).Select(s => s.Date.ToShortDateString()).Distinct().ToList(); } }
+        public List<string> ChartDates { get { return Snapshots.OrderBy(s => s.Date).Select(s => s.Date.ToShortDateString()).ToList(); } }
         public List<Decimal> ChartTotalBuyValuesEUR { get { return Snapshots.OrderBy(s => s.Date).GroupBy(s => s.Date).Select(g => g.Select(x => x.TotalBuyValueEUR).Sum()).ToList(); } }
         public List<Decimal> ChartTotalSellValuesEUR { get { return Snapshots.OrderBy(s => s.Date).GroupBy(s => s.Date).Select(g => g.Select(x => x.TotalSellValueEUR).Sum()).ToList(); } }
         public List<Decimal> ChartInvestsSellValuesEUR { get { return Snapshots.OrderBy(s => s.Date).GroupBy(s => s.Date).Select(g => g.Select(x => x.InvestsSellValueEUR).Sum()).ToList(); } }
